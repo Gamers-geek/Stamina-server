@@ -1,0 +1,22 @@
+{
+  "name": "stamina-server",
+  "version": "0.0.1",
+  "description": "Later...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stamina-Organization/Stamina-server.git"
+  },
+  "author": "Gipson62",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Stamina-Organization/Stamina-server/issues"
+  },
+  "homepage": "https://github.com/Stamina-Organization/Stamina-server#readme",
+  "dependencies": {
+    "ws": "^8.8.0"
+  }
+}
