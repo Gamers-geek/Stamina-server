@@ -10,4 +10,5 @@ server.on("connection", server => {
     server.on("close", (code, reason) => {
         console.log(code, reason)
     })
+    server.send(JSON.stringify({"test": "test"}))
 })
