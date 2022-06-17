@@ -2,13 +2,13 @@ var ws = require("ws")
 
 var server = new ws.Server({ port:4545})
 
-server.on("connection", server => {
-    server.on("message", message => {
-        let data = JSON.parse(message);
-        console.log(data)
+server.on("connection", client => {
+    client.on("message", message => {
+        let data = message
+        console.log(data.toString())
     })
-    server.on("close", (code, reason) => {
+    client.on("close", (code, reason) => {
         console.log(code, reason)
     })
-    server.send(JSON.stringify({"test": "test"}))
+    client.send(JSON.stringify({"test": "test"}))
 })
