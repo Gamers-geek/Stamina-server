@@ -1,6 +1,6 @@
-var ws = require("ws")
-
-var server = new ws.Server({ port:4545})
+const ws = require("ws")
+const { port } = require('config.js')
+const server = new ws.Server({ port: port})
 
 server.on("connection", client => {
     client.on("message", message => {
