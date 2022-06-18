@@ -1,6 +1,6 @@
 # Stamina-server
 
-Stamina-server est un projet Open Source permettant de faire fonctionner la fonction multijoueur du jeu [Stamina Game](https://github.com/Stamina-Organization/Stamina-Game)
+Stamina-server est un projet sous license MIT pour l'instant permettant de faire fonctionner la fonction multijoueur du jeu [Stamina-client](https://github.com/Stamina-Organization/Stamina-client)
 
 ## Configuration
 

@@ -1,6 +1,6 @@
 const { Server, WebSocket } = require("ws");
-const { port, debug } = require('config');
-const { debug } = require('utils/debug')
+const { port, debug } = require("./config");
+const { debuging } = require('./utils/debug')
 const server = new Server({ port: port });
 
 server.on("connection", client => {
@@ -29,7 +29,7 @@ async function handleOnMessageReceive(message, socket) {
     };
 
     if (debug) {
-        debug("[DEBUG] Received message", parsedMessage);
+        debuging("[DEBUG] Received message", parsedMessage);
     }
 
     return;

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Stamina-Organization/Stamina-server#readme",
   "dependencies": {
+    "@types/node": "^18.0.0",
     "ws": "^8.8.0"
   }
 }
