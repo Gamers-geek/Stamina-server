@@ -4,8 +4,13 @@ var server = new ws.Server({ port:4545})
 
 server.on("connection", client => {
     client.on("message", message => {
-        let data = message
-        console.log(data.toString())
+        try{
+            let data = JSON.parse(message)
+
+            console.log(data)
+        } catch(error) {
+            console.log(error)
+        };
     })
     client.on("close", (code, reason) => {
         console.log(code, reason)
