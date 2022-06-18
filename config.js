@@ -1,3 +1,4 @@
 module.exports = {
-    port: 4545
+    port: 4545,
+    debug: false
 }
