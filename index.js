@@ -1,5 +1,4 @@
 const { Server, WebSocket } = require("ws");
-const { readdirSync } = require("fs");
 const { port, debug } = require('config');
 const { debug } = require('utils/debug')
 const server = new Server({ port: port });
