@@ -1,9 +1,10 @@
 const { Server, WebSocket } = require("ws");
 const { port, debug } = require("./config");
-const { debuging } = require('./utils/debug')
+const debuging = require("./utils/debug")
 const server = new Server({ port: port });
 
 server.on("connection", client => {
+    console.log("Une personne vient de se connecter")
     client.on("message", message => {
         try {
             handleOnMessageReceive(message)
@@ -22,14 +23,15 @@ server.on("connection", client => {
  * @param {WebSocket} socket 
  * @returns {void}
  */
-async function handleOnMessageReceive(message, socket) {
-    const parsedMessage = JSON.parse(message);
+function handleOnMessageReceive(message, socket) {
+    let hehe = message.toString()
+    let parsedMessage = JSON.parse(hehe);
     if (!parsedMessage) {
         return console.error("[ERROR] Invalid message format", message);
     };
 
     if (debug) {
-        debuging("[DEBUG] Received message", parsedMessage);
+        debuging(parsedMessage);
     }
 
     return;
