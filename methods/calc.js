@@ -7,7 +7,7 @@ module.exports = {
         if (data.firstN && data.secondN) {
             if (typeof data.firstN === "number" && typeof data.secondN === "number") {
                 client.send(JSON.stringify({
-                    method: "test",
+                    method: "calc",
                     data: {
                         result: data.firstN + data.secondN,
                         date: new Date()

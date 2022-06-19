@@ -1,10 +1,10 @@
 module.exports = {
     name: "test",
-    description: "Ceci est une methode de demonstration qui cherche l'id dun message pour renvoyé le message",
+    description: "Ceci est une methode de demonstration qui cherche l'id dun message pour renvoyer le message",
     run: function (message, socket, client) {
         let data = message.data;
         let messages = {
-            messageTest: "Ceci est un message de test du tonére :)"
+            messageTest: "Ceci est un message de test du tonnerre :)"
         }
 
         if (data.messageID && messages[data.messageID]) {
