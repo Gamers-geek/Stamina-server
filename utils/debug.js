@@ -1,5 +1,5 @@
-function debuging(message) {
+function debug(message) {
     console.log("[DEBUG] ", message)
 }
 
-module.exports = debuging
+module.exports = debug
