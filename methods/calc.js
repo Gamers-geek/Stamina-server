@@ -1,4 +1,13 @@
+const { Server, WebSocket } = require('ws')
+
 module.exports = {
+    /**
+     * @function run
+     * @param {JSON} message
+     * @param {Server<WebSocket>} socket
+     * @param {WebSocket} client
+     * @returns {JSON}
+     */
     name: "calc",
     description: "Ceci est une deuxieme methode de demonstration qui sert à calculer deux nombre (à rien en gros mdr)",
     run: function (message, socket, client) {
@@ -11,7 +20,7 @@ module.exports = {
                     data: {
                         result: data.firstN + data.secondN,
                         date: new Date()
-                        // Tu peut aussi recup des info dans une DB ect...
+                        // On peut aussi recup des info dans une DB ect...
                     }
                 }))
             } else client.send(JSON.stringify({

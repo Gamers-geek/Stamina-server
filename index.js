@@ -1,13 +1,9 @@
-const { Server, WebSocket } = require("ws");
-const { port, debug } = require("./config");
-const debuging = require("./utils/debug")
+const { Server, WebSocket, } = require("ws");
+const { port, debugEnabled } = require("./config");
+const debug = require("./utils/debug")
 const server = new Server({ port: port });
 
 let methods = require("./handler.js")
-
-
-
-
 
 server.on("connection", client => {
     console.log("Une personne vient de se connecter")
@@ -26,7 +22,8 @@ server.on("connection", client => {
 
 /**
  * @param {JSON} message 
- * @param {WebSocket} socket 
+ * @param {Server<WebSocket>} socket
+ * @param {WebSocket} client  
  * @returns {void}
  */
 function handleOnMessageReceive(message, socket, client) {
@@ -36,25 +33,31 @@ function handleOnMessageReceive(message, socket, client) {
         return console.error("[ERROR] Invalid message format", message);
     };
 
-    if (debug) {
-        debuging(parsedMessage);
+    if (debugEnabled) {
+        debug(parsedMessage);
     }
     if (parsedMessage.method) handleMethod(parsedMessage, socket, parsedMessage.method, client)
 
     return;
 };
 
+/**
+ * @param {JSON} message 
+ * @param {Server<WebSocket>} socket 
+ * @param {String} method 
+ * @param {WebSocket} client 
+ * @returns {Function} 
+ */
 function handleMethod(message, socket, method, client) {
-    
-    if (!methods[method])  {
-        if (debug) {
-        debuging(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
+    // Si la méthode n'existe pas, on retourne une erreur
+    if (!methods[method]) {
+        if (debugEnabled) {
+            debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
         }
         return client.send(JSON.stringify({
             error: 400
-        })) // si la méthod n'existe pas, renvoyé le code 400
-        
+        }))
+
     }
-     
-    methods[method].run(message, socket, client)
+    return methods[method].run(message, socket, client)
 }
