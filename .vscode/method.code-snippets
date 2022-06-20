@@ -29,13 +29,13 @@
 			"     * @param {WebSocket} client",
 			"     * @returns {JSON}",
 			"     */",
-			"    name: \"calc\",",
+			"    name: \"method\",",
 			"    description: \"Description de la méthode\",",
 			"    run: function (message, socket, client) {",
 			"        let data = message.data;",
 			"    }",
 			"}"
 		],
-		"description": "Log output to console"
+		"description": "Génére la base du code d'une methode."
 	}
 }
