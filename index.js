@@ -1,21 +1,22 @@
 const { Server, WebSocket, } = require("ws");
-const { port, debugEnabled } = require("./config");
-const debug = require("./utils/debug")
+const { port } = require("./config");
+const {debug, debugError} = require("./utils/debug")
 const server = new Server({ port: port });
+console.log(`Server started on port ${port} !`)
 
 let methods = require("./handler.js")
 
 server.on("connection", client => {
-    console.log("Une personne vient de se connecter")
+    debug("Une personne vient de se connecter")
     client.on("message", message => {
         try {
             handleOnMessageReceive(message, server, client)
         } catch (error) {
-            console.log(error);
+            debugError(error);
         };
     });
     client.on("close", (code, reason) => {
-        console.log(code, reason);
+        debug(`Connection closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
     });
     client.send(JSON.stringify({ "test": "test" }));
 });
@@ -33,9 +34,8 @@ function handleOnMessageReceive(message, socket, client) {
         return console.error("[ERROR] Invalid message format", message);
     };
 
-    if (debugEnabled) {
-        debug(parsedMessage);
-    }
+    debug(parsedMessage);
+    
     if (parsedMessage.method) handleMethod(parsedMessage, socket, parsedMessage.method, client)
 
     return;
@@ -51,9 +51,9 @@ function handleOnMessageReceive(message, socket, client) {
 function handleMethod(message, socket, method, client) {
     // Si la méthode n'existe pas, on retourne une erreur
     if (!methods[method]) {
-        if (debugEnabled) {
-            debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
-        }
+        
+        debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
+        
         return client.send(JSON.stringify({
             error: 400
         }))

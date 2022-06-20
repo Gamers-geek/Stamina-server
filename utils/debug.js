@@ -1,5 +1,13 @@
+const { debugEnabled } = require("../config");
+
 function debug(message) {
-    console.log("[DEBUG] ", message)
+    if(debugEnabled){
+        console.log("[DEBUG] ", message)
+    }
 }
 
-module.exports = debug
+function debugError(message) {
+    console.log("[ERROR] ", message)
+}
+
+module.exports = {debug, debugError}
