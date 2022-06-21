@@ -15,7 +15,7 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-	"Générer la base d'une code d'une methode": {
+	"Générer la base du code d'une methode": {
 		"scope": "javascript,typescript",
 		"prefix": "method",
 		"body": [
@@ -29,13 +29,13 @@
 			"     * @param {WebSocket} client",
 			"     * @returns {JSON}",
 			"     */",
-			"    name: \"calc\",",
-			"    description: \"Ceci est une deuxieme methode de demonstration qui sert à calculer deux nombre (à rien en gros mdr)\",",
+			"    name: \"method\",",
+			"    description: \"Description de la méthode\",",
 			"    run: function (message, socket, client) {",
 			"        let data = message.data;",
 			"    }",
 			"}"
 		],
-		"description": "Log output to console"
+		"description": "Génére la base du code d'une methode."
 	}
 }
