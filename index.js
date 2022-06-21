@@ -16,7 +16,7 @@ server.on("connection", client => {
         };
     });
     client.on("close", (code, reason) => {
-        debug(`Connection closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
+        debug(`Connexion closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
     });
     client.send(JSON.stringify({ "test": "test" }));
 });
@@ -52,7 +52,7 @@ function handleMethod(message, socket, method, client) {
     // Si la méthode n'existe pas, on retourne une erreur
     if (!methods[method]) {
         
-        debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
+        debug(`Quelqu'un a voulu utiliser la fonction "${method}" qui n'existe pas.`)
         
         return client.send(JSON.stringify({
             error: 400
