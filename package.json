@@ -1,7 +1,7 @@
 {
   "name": "stamina-server",
-  "version": "0.0.1",
-  "description": "Later...",
+  "version": "0.0.2",
+  "description": "Stamina-server est un projet sous license MIT pour l'instant permettant de faire fonctionner la fonction multijoueur du jeu Stamina-client",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/Stamina-Organization/Stamina-server.git"
   },
-  "author": "Gipson62",
+  "author": "Gipson62, Quentin72000, TheBacou, Gamers-Geek",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Stamina-Organization/Stamina-server/issues"
