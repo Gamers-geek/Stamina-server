@@ -1,5 +1,10 @@
 # Stamina-server
 
+![](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge)
+![](https://img.shields.io/github/license/Stamina-Organization/Stamina-Server?style=for-the-badge)
+![](https://img.shields.io/github/issues/Stamina-Organization/Stamina-Server?style=for-the-badge)
+![](https://img.shields.io/discord/880133347446247574?label=Discord&style=for-the-badge)
+
 Stamina-server est un projet sous license MIT pour l'instant, permettant de faire fonctionner la fonction multijoueur du jeu [Stamina-client](https://github.com/Stamina-Organization/Stamina-client). C'est un serveur master ||ce n'est pas le véritable terme||, c'est à dire qu'il s'occupera de tous ce qui se passe dans le jeu et qu'il est le seul à valider ou non les actions qui se passent en jeu. Cela permets de réduire la triche.
 
 ## Configuration
