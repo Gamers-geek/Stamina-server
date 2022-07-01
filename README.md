@@ -18,7 +18,9 @@ module.exports = {
 }
 ``` 
 Le serveur utilise par défaut le port 2025. Ce port peut-être modifié à n'importe quel moment en modifiant les valeurs dans le fichier `config.js`.
+
 Vous pouvez activer ou désactiver quand vous voulez le système de débug en changeant la valeur de `debugEnabled`.
+
 Vous pouvez aussi limiter le nombre de personnes qui peuvent se connecter aux serveurs en modifiant la valeur de `maxPeople`. 
 > Actuellement c'est en **String** mais ça devrait fonctionner avec des **int** normalement.
 
