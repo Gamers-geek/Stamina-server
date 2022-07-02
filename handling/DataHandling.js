@@ -31,8 +31,7 @@ class DataHandling {
  */
     use_data(client, data, date){
         let StringMessage = data.toString()
-        let test = JSON.stringify(StringMessage)
-        let parsedMessage = JSON.parse(test);
+        let parsedMessage = JSON.parse(StringMessage);
         if (!parsedMessage) {
             return debugError("Invalid message format", message);
         };
@@ -40,14 +39,28 @@ class DataHandling {
             this.handle_data_for_clients(client, parsedMessage)
             debug("Un client a envoyé une requète")
         }
-        debug(`Nouveau message ${parsedMessage} \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage["client_type"]}`)
+        else if(parsedMessage["client_type"] == "api"){
+            this.handle_data_for_api(client)
+        }
+        else if(parsedMessage["client_type"] == "admin"){
+            this.handle_data_for_admin(client)
+        }
+        console.log(`[DEBUG]  Nouveau message`, parsedMessage,` \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage.client_type}`)
         // \n Envoyé par : ${JSON.stringify(client)} 
     }
 /**
  * 
  */
     handle_data_for_clients(client, data){
+        debug("Quelque chose par ici")
+    }
 
+    handle_data_for_api(client, data, method){
+
+    }
+
+    handle_data_for_admin(client, data, method){
+        
     }
 }
 

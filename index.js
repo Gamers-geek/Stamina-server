@@ -1,5 +1,6 @@
 //Ce fichier ne sert qu'à lancer la logique du serveur et de tout ce qui s'y rapporte et qui ont besoin d'un lancement immédiat.
 
+const { Room } = require("./Game/Room.js");
 const {ServerHandling} = require("./handling/ServerHandling.js");
 
 
@@ -9,6 +10,7 @@ var test = new ServerHandling("lws-mirror-protocol")
 //Lance toute la logique du serveur
 test.run()
 
+Room.print_hello()
 
 /*
 /**
