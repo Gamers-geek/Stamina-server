@@ -31,7 +31,8 @@ class DataHandling {
  */
     use_data(client, data, date){
         let StringMessage = data.toString()
-        let parsedMessage = JSON.parse(StringMessage);
+        let test = JSON.stringify(StringMessage)
+        let parsedMessage = JSON.parse(test);
         if (!parsedMessage) {
             return debugError("Invalid message format", message);
         };
@@ -39,7 +40,8 @@ class DataHandling {
             this.handle_data_for_clients(client, parsedMessage)
             debug("Un client a envoyé une requète")
         }
-        debug(`Nouveau message ${parsedMessage} \n Envoyé à : ${date} \n Envoyé par : ${JSON.stringify(client)} \n Types de demandes : ${parsedMessage["client_type"]}`)
+        debug(`Nouveau message ${parsedMessage} \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage["client_type"]}`)
+        // \n Envoyé par : ${JSON.stringify(client)} 
     }
 /**
  * 
