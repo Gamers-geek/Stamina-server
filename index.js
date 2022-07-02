@@ -4,7 +4,7 @@ const {ServerHandling} = require("./handling/ServerHandling.js");
 
 
 //Instancie la classe ServerHandling pour pouvoir démarrer le serveur
-var test = new ServerHandling()
+var test = new ServerHandling("lws-mirror-protocol")
 
 //Lance toute la logique du serveur
 test.run()

@@ -1,0 +1,35 @@
+{
+    "client_type":"client",
+    "roomID":{
+        "playerID":{
+            "BossPosition": true,
+            "mobs1Position": false,
+            "mobs2Position": false,
+            "Ici, c'est pour si il a besoin ou non": "Des positions des mobs ou autre.",
+            "La map sera découpé en case et en fonction":"De sa position dans les cases, il demandera ou non des informations.",
+            "Il demandera aussi pour les spells et les joueurs":"Cette méthode reste à voir, mais elle reste intéressante pour éviter les triches.",
+            "Player": {
+                "Position" : "Vector3()",
+                "Rotation" : "Rotation()"
+            },
+            "KeysUsed": {
+                "Forward": true,
+                "Backward": false,
+                "Left": true,
+                "Right": false,
+                "Jump": true,
+                "Spell1": false,
+                "Spell2": false,
+                "Spell3": false,
+                "Spell4": false,
+                "RightClick": false,
+                "LeftClick": true,
+                "Crouch": false
+            },
+            "Spells":{
+                "Ici, il y aura, seulement au début de la partie":"tous les spells que le joueur a"
+            }
+            
+        }
+    } 
+}
