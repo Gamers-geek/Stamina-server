@@ -4,4 +4,4 @@ class Entities {
     }
 }
 
-module.exports = {Entities}
+module.exports = Entities

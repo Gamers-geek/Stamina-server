@@ -4,13 +4,12 @@ module.exports = {
     /**
      * @function run
      * @param {JSON} message
-     * @param {Server<WebSocket>} socket
      * @param {WebSocket} client
      * @returns {JSON}
      */
     name: "test",
     description: "Ceci est une methode de demonstration qui cherche l'id dun message pour renvoyer le message",
-    run: function (message, socket, client) {
+    run: function (message, client) {
         let data = message.data;
 
         // On défini les messages

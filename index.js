@@ -1,35 +1,36 @@
 //Ce fichier ne sert qu'à lancer la logique du serveur et de tout ce qui s'y rapporte et qui ont besoin d'un lancement immédiat.
-
-const { Room } = require("./Game/Room.js");
-const {ServerHandling} = require("./handling/ServerHandling.js");
+const Room = require("./Game/Room.js");
+const ServerHandling = require("./handling/ServerHandling.js");
+const Api = require("./site/Connexion.js");
 
 
 //Instancie la classe ServerHandling pour pouvoir démarrer le serveur
-var test = new ServerHandling("lws-mirror-protocol")
-
+let test = new ServerHandling("lws-mirror-protocol")
 //Lance toute la logique du serveur
 test.run()
 
-Room.print_hello()
+let hehe = new Api()
+hehe.run()
 
-/*
-/**
- * @param {JSON} message 
- * @param {Server<WebSocket>} socket 
- * @param {String} method 
- * @param {WebSocket} client 
- * @returns {Function} 
- */
-/*function handleMethod(message, socket, method, client) {
-    // Si la méthode n'existe pas, on retourne une erreur
-    if (!methods[method]) {
-        
-        debug(`Quelqu'un a voulu utiliser la fonction "${method}" qui n'existe pas.`)
-        
-        return client.send(JSON.stringify({
-            error: 400
-        }))
+hehe.get_games_amount()
+hehe.get_players_amount()
+console.log("CA ME CASSE LES COUILLES PTN")
 
-    }
-    return methods[method].run(message, socket, client)
-}*/
+/*let lobby = []
+
+function create_lobby(id, players, max_players){
+    lobby.push(new Room(id, players, max_players))
+}
+/*Array.prototype.createlobby = function (){
+    this.push(new Room(53, 4, 5))
+}
+lobby = [] 
+lobby.createlobby()*/
+
+/*create_lobby(53, 4, 5)
+
+console.log(lobby)
+
+lobby[0].print_hello()
+
+lobby.find(el=>el.id = 53).print_hello()*/

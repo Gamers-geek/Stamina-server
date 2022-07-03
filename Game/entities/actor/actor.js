@@ -1,4 +1,4 @@
-const { Entities } = require("../entities");
+const Entities = require("../entities");
 
 class Actor extends Entities{
     constructor(){
@@ -6,4 +6,4 @@ class Actor extends Entities{
     }
 }
 
-module.exports = {Actor}
+module.exports = Actor

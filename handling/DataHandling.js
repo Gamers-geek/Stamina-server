@@ -1,4 +1,6 @@
 const {debug, debugError} = require("../utils/debug");
+const ServerHandling = require("./ServerHandling");
+const methods = require("../handler")
 
 // Le système de date est obligatoire, car il permettra de mettre en place le systeme de ping et le systeme de pertes des paquets.µ
 // Si un paquet est trop vieux on pourra le considérer comme inutile
@@ -37,10 +39,9 @@ class DataHandling {
         };
         if(parsedMessage["client_type"] == "client"){
             this.handle_data_for_clients(client, parsedMessage)
-            debug("Un client a envoyé une requète")
         }
         else if(parsedMessage["client_type"] == "api"){
-            this.handle_data_for_api(client)
+            this.handle_data_for_api(parsedMessage, client, parsedMessage.method)
         }
         else if(parsedMessage["client_type"] == "admin"){
             this.handle_data_for_admin(client)
@@ -52,16 +53,24 @@ class DataHandling {
  * 
  */
     handle_data_for_clients(client, data){
-        debug("Quelque chose par ici")
+        debug("Un client a envoyé une requête")
     }
 
-    handle_data_for_api(client, data, method){
-
+    handle_data_for_api(message, client, method){
+        if (!methods[method])  {
+            debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
+            return client.send(JSON.stringify({
+                error: 400
+            })) // si méthod n'existe pas, renvoyer le code 400
+    
+        }
+    
+        methods[method].run(message, client)
     }
 
     handle_data_for_admin(client, data, method){
-        
+        debug("Un admin a envoyé une requête")
     }
 }
 
-module.exports = {DataHandling};
+module.exports = DataHandling;

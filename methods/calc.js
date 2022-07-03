@@ -4,13 +4,12 @@ module.exports = {
     /**
      * @function run
      * @param {JSON} message
-     * @param {Server<WebSocket>} socket
      * @param {WebSocket} client
      * @returns {JSON}
      */
     name: "calc",
     description: "Ceci est une deuxieme methode de demonstration qui sert à calculer deux nombre (à rien en gros mdr)",
-    run: function (message, socket, client) {
+    run: function (message, client) {
         let data = message.data;
 
         if (data.firstN && data.secondN) {

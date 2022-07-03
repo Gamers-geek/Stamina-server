@@ -1,7 +1,7 @@
 const { Server, WebSocket, } = require("ws");
 const { port, maxPeople } = require("../config");
 const {debug, debugError} = require("../utils/debug");
-const {DataHandling} = require("./DataHandling")
+const DataHandling = require("./DataHandling")
 
 /**
  * Classe du serveur. Il s'occupe de connecter, déconnecter et d'écouter ce que les clients lui envoie.
@@ -10,12 +10,12 @@ const {DataHandling} = require("./DataHandling")
 class ServerHandling {
 /**
  * @param {String} protocol
- * @param {Class} dataHandling
  */
     constructor(protocol = null){
         this.protocol = protocol
         this.players
         this.dataHandling = new DataHandling()
+        this.lobby = []
     }
 
 /**
@@ -29,11 +29,11 @@ class ServerHandling {
         const server = new Server({port:port, proto:this.protocol})
 
         debug(`Server started on port ${port} !`)
-        debug("Nombre des joueurs : " + this.get_amount_player())
+        debug("Nombre des joueurs : " + this.players)
 
         server.on("connection", client => {
             this.on_connexion(client)
-            debug("Nombre de joueurs : " + this.get_amount_player())
+            debug("Nombre de joueurs : " + this.players)
 
             if(this.players > maxPeople){
                 this.dataHandling.send_data(client, {"qqchose":"Désolé mec"}, Date.now())
@@ -70,6 +70,7 @@ class ServerHandling {
         client.on("message", message =>{
             try {
                 this.dataHandling.use_data(client, message, Date.now())
+                console.log("Nouveau message")
             } catch (error) {
                 debugError(error);
             };
@@ -79,18 +80,32 @@ class ServerHandling {
  * Permet de connaitre le nombre de joueurs qu'il y a actuellement sur le serveur.
  * @returns this.players
  */
-    get_amount_player() {
+    get_amount_players() {
         return this.players
     }
-    create_game(){
 
+/**
+ * Permet de connaitre le nombre de parties en cours sur ce serveur.
+ * @returns this.lobby.length()
+ */
+    get_amount_games() {
+        return this.lobby.length()
+    }
+/**
+ * 
+ * @param {int} id 
+ * @param {Array} playersID 
+ * @param {int} max_players 
+ */
+    static create_lobby(id, playersID, max_players){
+        lobby.push(new Room(id, playersID, max_players))
     }
 
     join_game(){
 
     }
     
-    leave_game(){
+    leave_game(playerID){
 
     }
 
@@ -100,4 +115,4 @@ class ServerHandling {
 
 }
 
-module.exports = {ServerHandling};
+module.exports = ServerHandling;

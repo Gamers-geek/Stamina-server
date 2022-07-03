@@ -3,7 +3,6 @@ const {debug, debugError} = require("../utils/debug");
 
 class Room {
     /** 
-     * 
      * @param {int} id 
      * @param {Array} players 
      * @param {int} max_players
@@ -12,7 +11,6 @@ class Room {
         this.id = id
         this.players = players
         this.max_players = max_players
-
     }
 /**
  * @returns id of the class
@@ -21,9 +19,9 @@ class Room {
         return this.id
     }
     
-    static print_hello(){
+    print_hello(){
         console.log("Hello World")
     }
 }
 
-module.exports = {Room}
+module.exports = Room
