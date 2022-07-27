@@ -2,6 +2,7 @@ const { debug, debugError } = require ("../utils/debug.js")
 const  ServerHandling = require ("./ServerHandling.js")
 const methods = require ("../handler.js")
 const Room = require("../Game/Room")
+const { parse } = require("path")
 
 // Le système de date est obligatoire, car il permettra de mettre en place le systeme de ping et le systeme de pertes des paquets.µ
 // Si un paquet est trop vieux on pourra le considérer comme inutile
@@ -40,6 +41,9 @@ class DataHandling {
         };
         if(parsedMessage["client_type"] == "client"){
             this.handle_data_for_clients(client, parsedMessage)
+        }
+        if(parsedMessage["connexion"]){
+            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, client)
         }
         else if(parsedMessage["client_type"] == "api"){
             this.handle_data_for_api(parsedMessage, client, parsedMessage.method)

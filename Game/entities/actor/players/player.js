@@ -6,10 +6,12 @@ class Player {
      * @param {int} tag 
      * @param {String} username 
      */
-    constructor(tag, username){
+    constructor(tag, username, client){
         this.tag = tag
         this.username = username
+        this.client = client
         this.oldPosition
+        this.position
     }
 /**
  * 
@@ -17,9 +19,13 @@ class Player {
  * @returns 
  */
     validate_position(position){
+        this.client.send(Buffer.from(JSON.stringify({isPositionValide: true, newPosition:position, oldPosition:this.oldPosition})), "utf8")
+    }
+/**
+ * @param {Vector3} position 
+ */
+    change_position(position){
         this.oldPosition = position
-        return({isPositionValide: true, newPosition:position, oldPosition:this.oldPosition})
-  
     }
 }
 

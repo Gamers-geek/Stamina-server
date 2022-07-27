@@ -33,14 +33,15 @@ class ServerHandling {
         debug("Nombre des joueurs : " + this.players)
 
         server.on("connection", client => {
+            this.dataHandling.create_lobby(1, 100)
             this.on_connexion(client)
             debug("Nombre de joueurs : " + this.players)
 
-            if(this.players < maxPlayer){
+            if(this.players > maxPlayer){
                 this.dataHandling.send_data(client, {"error":"Too many player connected"}, Date.now())
                 client.close()
-                this.dataHandling.create_lobby(15, 25)
-                this.dataHandling.create_player(25, "Cardiaque", client)
+                /*this.dataHandling.create_lobby(15, 25)
+                this.dataHandling.create_player(25, "Cardiaque", client)*/
                 }
 
             client.on("close", (code, reason)=>{
@@ -51,19 +52,19 @@ class ServerHandling {
 
 /**
  * Quand un client se déconnecte, la fonction récupère le code et la raison de la déconnexion.
- * Il change aussi le nombre de personnes connectés actuellement (+1).
+ * Il change aussi le nombre de personnes connectés actuellement (-1).
  * @param {String} code 
  * @param {String} reason 
  */
     on_deconnexion(code, reason){
-        this.players -1
+        this.players =-1
         debug(`Connexion closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
     }
 
 /**
  * Quand un client se connecte, la fonction récupère son ID et les informations du client et
  * les envoie dans le DataHandler qui s'occupe d'envoyer les informations aux bons endroits.
- * Il change aussi le nombre de personnes connectés actuellement (-1).
+ * Il change aussi le nombre de personnes connectés actuellement (+1).
  * @param {WebSocket} client
  */
     on_connexion(client){
@@ -73,7 +74,6 @@ class ServerHandling {
         client.on("message", message =>{
             try {
                 this.dataHandling.use_data(client, message, Date.now())
-                this.dataHandling.create_lobby(1, 1000)
                 console.log("Nouveau message")
             } catch (error) {
                 debugError(error);

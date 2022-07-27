@@ -21,14 +21,14 @@ class Api {
         let timelapse = Date.now()
         this.client.on("open", ws => {
             timelapse = timelapse - Date.now()
-            console.log(timelapse)
+            debug(timelapse)
             debug("Api connectée")
             this.setplayers()
         })
         this.client.on("message", message => {
             let StringMessage = message.toString()
             let parsedMessage = JSON.parse(StringMessage)
-            console.log("Le serveur a envoyé : ", parsedMessage)
+            debug("Le serveur a envoyé : ", parsedMessage)
 
             if(parsedMessage.amount_players){
                 this.players_amount = parsedMessage.amount_players
