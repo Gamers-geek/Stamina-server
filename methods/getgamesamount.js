@@ -2,7 +2,7 @@ const { Server, WebSocket } = require ('ws')
 
 module.exports = {
     name : "getgamesamount",
-    description : "Description de la méthode",
+    description : "Renvoie le nombre de parties en cours.",
     run : function(message, client) {
         let data = message.data;
         let response = {

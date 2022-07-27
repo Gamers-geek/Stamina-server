@@ -5,16 +5,15 @@ const Api = require ("./site/Connexion.js");
 
 
 //Instancie la classe ServerHandling pour pouvoir démarrer le serveur
-let test = new ServerHandling("lws-mirror-protocol")
+let server = new ServerHandling("lws-mirror-protocol")
 //Lance toute la logique du serveur
-test.run()
+server.run()
 
 let hehe = new Api()
 hehe.run()
 
 hehe.get_games_amount()
 //hehe.get_players_amount()
-//console.log("CA ME CASSE LES COUILLES PTN")
 
 /*let lobby = []
 

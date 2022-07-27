@@ -1,5 +1,5 @@
 const { Server, WebSocket } = require  ("ws")
-const { port, maxPeople } = require("../config.js")
+const { port, maxPlayer } = require("../config.js")
 const Room =  require("../Game/Room")
 const { debug, debugError } = require ("../utils/debug.js")
 const DataHandling = require ("./DataHandling.js")
@@ -36,8 +36,8 @@ class ServerHandling {
             this.on_connexion(client)
             debug("Nombre de joueurs : " + this.players)
 
-            if(this.players < maxPeople){
-                this.dataHandling.send_data(client, {"qqchose":"Désolé mec"}, Date.now())
+            if(this.players < maxPlayer){
+                this.dataHandling.send_data(client, {"error":"Too many player connected"}, Date.now())
                 client.close()
                 this.dataHandling.create_lobby(15, 25)
                 this.dataHandling.create_player(25, "Cardiaque", client)

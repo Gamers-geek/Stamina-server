@@ -1,12 +1,12 @@
 const { Server, WebSocket } = require ('ws')
-const { info } = require("../config.js")
+const { version } = require("../config.js")
 
 module.exports = {
     name: "version",
-    description: "Description de la méthode",
+    description: "Permet de verifier la version du client.",
     run:function(message, client) {
         let data = message.data;
-        if (data.version == info.version) {
+        if (data.version == version) {
             client.send(Buffer.from(JSON.stringify({
                 "version": {
                     "isUpdate": true,
@@ -14,11 +14,11 @@ module.exports = {
                 }
             }), "utf-8"
             ));
-        } else if (data.version > info.version) {
+        } else if (data.version > version) {
             client.send(Buffer.from(JSON.stringify({
                 "version": {
                     "isUpdate": false,
-                    "version": info.version
+                    "version": version
                 }
             }), "utf-8"
             ))
