@@ -26,22 +26,22 @@ class Room {
         console.log("Hello World")
     }
 /**
- * @param {int} id 
+ * @param {int} tag 
  * @param {String} username
  * Instancie une nouvelle classe Player qui s'occupera de gérer la logique d'un joueur défini par son id et username
  */
-    create_players(id, username, client){
-        this.players.push(new Player(id, username))
-        this.connectedClients[id] = {name: username, id: id, client:client }
+    create_players(tag, username, client){
+        this.players.push(new Player(tag, username))
+        this.connectedClients[tag] = {name: username, tag: tag, client:client }
     }
 /**
- * @param {*} id 
- * @param {*} username 
+ * @param {int} tag 
+ * @param {String} username 
  * @return socket
  */
-    find_players(id, username){
+    find_players(tag, username){
         try {
-            console.log("Trouvé via l'id : " + JSON.stringify(this.players.find(player=>player.id = id)))
+            console.log("Trouvé via l'id : " + JSON.stringify(this.players.find(player=>player.tag = tag)))
         } catch {
             console.log("Trouvé via le pseudo : " + JSON.stringify(this.players.find(player => player.username = username)))
         }

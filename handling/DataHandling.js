@@ -82,9 +82,9 @@ class DataHandling {
         this.lobby.push(new Room(id, max_players))
     }
 
-    create_player(id, username, socket){
-        this.lobby[0].create_players(id, username, socket)
-        this.lobby[0].find_players(id, username)
+    create_player(tag, username, socket){
+        this.lobby[0].create_players(tag, username, socket)
+        this.lobby[0].find_players(tag, username)
     }
 }
 
