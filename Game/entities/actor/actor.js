@@ -1,8 +1,5 @@
-const Entities = require("../entities");
-
-class Actor extends Entities{
+class Actor  {
     constructor(){
-        super()
     }
 }
 

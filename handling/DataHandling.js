@@ -1,6 +1,7 @@
-const {debug, debugError} = require("../utils/debug");
-const ServerHandling = require("./ServerHandling");
-const methods = require("../handler")
+const { debug, debugError } = require ("../utils/debug.js")
+const  ServerHandling = require ("./ServerHandling.js")
+const methods = require ("../handler.js")
+const Room = require("../Game/Room")
 
 // Le système de date est obligatoire, car il permettra de mettre en place le systeme de ping et le systeme de pertes des paquets.µ
 // Si un paquet est trop vieux on pourra le considérer comme inutile
@@ -8,7 +9,7 @@ const methods = require("../handler")
 class DataHandling {
 
     constructor(){
-        
+        this.lobby = []
     }
 
 /**
@@ -58,7 +59,7 @@ class DataHandling {
 
     handle_data_for_api(message, client, method){
         if (!methods[method])  {
-            debug(`Quelqu'un à voulu utiliser la fonction "${method}" qui n'existe pas.`)
+            debug(`Quelqu'un a voulu utiliser la fonction "${method}" qui n'existe pas.`)
             return client.send(JSON.stringify({
                 error: 400
             })) // si méthod n'existe pas, renvoyer le code 400
@@ -70,6 +71,20 @@ class DataHandling {
 
     handle_data_for_admin(client, data, method){
         debug("Un admin a envoyé une requête")
+    }
+
+    /**
+ * @param {int} id 
+ * @param {Array} playersID 
+ * @param {int} max_players 
+ */
+    create_lobby(id, max_players){
+        this.lobby.push(new Room(id, max_players))
+    }
+
+    create_player(id, username, socket){
+        this.lobby[0].create_players(id, username, socket)
+        this.lobby[0].find_players(id, username)
     }
 }
 

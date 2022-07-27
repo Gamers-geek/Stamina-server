@@ -1,7 +1,7 @@
-const { debugEnabled } = require("../config");
+const { debugEnabled } =require ("../config.js")
 
 function debug(message) {
-    if(debugEnabled){
+    if(debugEnabled == true){
         console.log("[DEBUG] ", message)
     }
 }

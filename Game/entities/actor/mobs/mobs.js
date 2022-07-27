@@ -1,8 +1,5 @@
-const Actor = require("../actor");
-
-class Mobs extends Actor{
+class Mobs {
     constructor(){
-        super()
     }
 }
 

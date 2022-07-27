@@ -1,5 +1,6 @@
 module.exports = {
-    port: 2025,
-    debugEnabled: true,
-    maxPeople: "2"
+    "port" : 2025,
+    "debugEnabled": false,
+    "maxPeople": 2,
+    "version": "001"
 }

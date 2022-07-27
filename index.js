@@ -1,7 +1,7 @@
 //Ce fichier ne sert qu'à lancer la logique du serveur et de tout ce qui s'y rapporte et qui ont besoin d'un lancement immédiat.
-const Room = require("./Game/Room.js");
+const Room = require ("./Game/Room.js")
 const ServerHandling = require("./handling/ServerHandling.js");
-const Api = require("./site/Connexion.js");
+const Api = require ("./site/Connexion.js");
 
 
 //Instancie la classe ServerHandling pour pouvoir démarrer le serveur
@@ -13,8 +13,8 @@ let hehe = new Api()
 hehe.run()
 
 hehe.get_games_amount()
-hehe.get_players_amount()
-console.log("CA ME CASSE LES COUILLES PTN")
+//hehe.get_players_amount()
+//console.log("CA ME CASSE LES COUILLES PTN")
 
 /*let lobby = []
 

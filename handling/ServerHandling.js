@@ -1,7 +1,8 @@
-const { Server, WebSocket, } = require("ws");
-const { port, maxPeople } = require("../config");
-const {debug, debugError} = require("../utils/debug");
-const DataHandling = require("./DataHandling")
+const { Server, WebSocket } = require  ("ws")
+const { port, maxPeople } = require("../config.js")
+const Room =  require("../Game/Room")
+const { debug, debugError } = require ("../utils/debug.js")
+const DataHandling = require ("./DataHandling.js")
 
 /**
  * Classe du serveur. Il s'occupe de connecter, déconnecter et d'écouter ce que les clients lui envoie.
@@ -35,9 +36,11 @@ class ServerHandling {
             this.on_connexion(client)
             debug("Nombre de joueurs : " + this.players)
 
-            if(this.players > maxPeople){
+            if(this.players < maxPeople){
                 this.dataHandling.send_data(client, {"qqchose":"Désolé mec"}, Date.now())
                 client.close()
+                this.dataHandling.create_lobby(15, 25)
+                this.dataHandling.create_player(25, "Cardiaque", client)
                 }
 
             client.on("close", (code, reason)=>{
@@ -70,6 +73,7 @@ class ServerHandling {
         client.on("message", message =>{
             try {
                 this.dataHandling.use_data(client, message, Date.now())
+                this.dataHandling.create_lobby(1, 1000)
                 console.log("Nouveau message")
             } catch (error) {
                 debugError(error);
@@ -90,15 +94,6 @@ class ServerHandling {
  */
     get_amount_games() {
         return this.lobby.length()
-    }
-/**
- * 
- * @param {int} id 
- * @param {Array} playersID 
- * @param {int} max_players 
- */
-    static create_lobby(id, playersID, max_players){
-        lobby.push(new Room(id, playersID, max_players))
     }
 
     join_game(){

@@ -1,7 +1,7 @@
 //Fichier exclusif aux apis, il n'a "rien à voir" avec le serveur. Juste je l'ai créé la pour pouvoir le tester en temps réel
 
-const {debug, debugError} = require("../utils/debug")
-const {WebSocket} = require("ws")
+const { debug, debugError } = require ("../utils/debug.js")
+const { WebSocket } = require("ws")
 
 let request = {
     "client_type":"api",
@@ -50,12 +50,12 @@ class Api {
 /**
  * @returns amount of players
  */
-    get_players_amount(){
-        let n = 0
+    /*get_players_amount(){
+        let n = -1
         while(this.players_amount === -1){
-            if (this.players_amount != -1){
+            if (n != -1){
                 return this.players_amount
-            } else n++
+            } else n = this.players_amount
             console.log(n)
         }
 
@@ -88,7 +88,7 @@ class Api {
             return this.players_amount
         }*/
 
-    }
+    //}
 
     setplayers(){
         request.method = 'getplayersamount'

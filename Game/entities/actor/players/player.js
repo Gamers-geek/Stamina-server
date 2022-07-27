@@ -1,8 +1,5 @@
-const Actor = require("../actor");
-
-class Player extends Actor {
+class Player {
     constructor(){
-        super()
     }
 }
 
