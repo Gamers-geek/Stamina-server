@@ -29,7 +29,7 @@ class ServerHandling {
 
         const server = new Server({port:port, proto:this.protocol})
 
-        debug(`Server started on port ${port} !`)
+        console.log(`Server started on port ${port} !`)
         debug("Nombre des joueurs : " + this.players)
 
         server.on("connection", client => {
@@ -69,7 +69,7 @@ class ServerHandling {
  */
     on_connexion(client){
         this.players ++
-        debug(`Une personne vient de se connecter, ID : ${JSON.stringify(client[0])}`)
+        console.log(`Une personne vient de se connecter, ID : ${JSON.stringify(client[0])}`)
 
         client.on("message", message =>{
             try {

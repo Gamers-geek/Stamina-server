@@ -51,7 +51,7 @@ class DataHandling {
         else if(parsedMessage["client_type"] == "admin"){
             this.handle_data_for_admin(client)
         }
-        console.log(`[DEBUG]  Nouveau message`, parsedMessage,` \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage.client_type}`)
+        debug(`Nouveau message`, parsedMessage,` \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage.client_type}`)
         // \n Envoyé par : ${JSON.stringify(client)} 
     }
 /**
