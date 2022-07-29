@@ -43,7 +43,7 @@ class DataHandling {
             this.handle_data_for_clients(client, parsedMessage)
         }
         if(parsedMessage["connexion"]){
-            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, client)
+            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, 15, client)
         }
         else if(parsedMessage["client_type"] == "api"){
             this.handle_data_for_api(parsedMessage, client, parsedMessage.method)
@@ -82,13 +82,17 @@ class DataHandling {
  * @param {Array} playersID 
  * @param {int} max_players 
  */
-    create_lobby(id, max_players){
+     create_lobby(id, max_players){
         this.lobby.push(new Room(id, max_players))
     }
 
-    create_player(tag, username, socket){
-        this.lobby[0].create_players(tag, username, socket)
+    create_player(tag, username, id, socket){
+        this.lobby[0].create_players(tag, username, id, socket)
         this.lobby[0].find_players(tag, username)
+    }
+    
+    delete_player(tag, username, socket){
+        this.lobby[0].delete_players(tag, username, socket)
     }
 }
 

@@ -14,25 +14,43 @@ class Room {
         this.max_players = max_players
         this.players = []
     }
-/**
- * @returns id of the class
- */
-    get_id(){
-        return this.id
-    }
-    
-    print_hello(){
-        debug("Hello World")
-    }
+
 /**
  * @param {int} tag 
  * @param {String} username
+ * @param {int} id
+ * @param {WebSocket} client
  * Instancie une nouvelle classe Player qui s'occupera de gérer la logique d'un joueur défini par son id et username
  */
-    create_players(tag, username, client){
-        this.players.push(new Player(tag, username, client))
+    create_players(tag, username, id, client){
+        const player = this.players.find(player => player.id = id)
+        if(player){
+            player.client = client
+            debug("Un joueur déjà existant a été modifié")
+        } else {
+        this.players.push(new Player(tag, username, id, client))
+        debug("Un joueur a été créé")
         //this.players[tag] = {username: username, tag: tag, client:client }
-        debug(this.players)
+    }
+        debug(`Tout les joueurs : ${JSON.stringify(this.players)}`)
+    }
+/**
+ * 
+ * @param {String} tag 
+ * @param {Stirng} username 
+ * @param {WebSocket} client 
+ * @returns 
+ */
+    delete_players(id, client){
+        try {
+            this.hehe = this.players.indexOf(this.players.find(player => player.id == id))
+            client.send("Désolé mec, t'es supprimé")
+            client.close(undefined, "Quelqu'un vous a supprimé")
+            this.players.splice(this.hehe, 1)
+            return(`Player deleted ${username}#${tag}`)
+        } catch {
+            return("No player or disfunctional function")
+        }
     }
 /**
  * @param {int} tag
@@ -53,7 +71,9 @@ class Room {
 
     handle_players(client, data){
         this.find_players(client)
-
+    }
+    get_amount_players(){
+        return this.players.length()
     }
 }
 

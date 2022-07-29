@@ -29,20 +29,19 @@ class ServerHandling {
 
         const server = new Server({port:port, proto:this.protocol})
 
-        console.log(`Server started on port ${port} !`)
+        debug(`Server started on port ${port} !`)
         debug("Nombre des joueurs : " + this.players)
-
+        this.dataHandling.create_lobby(1, 100)
         server.on("connection", client => {
-            this.dataHandling.create_lobby(1, 100)
-            this.on_connexion(client)
+            this.on_connexion(client, server)
             debug("Nombre de joueurs : " + this.players)
 
             if(this.players > maxPlayer){
                 this.dataHandling.send_data(client, {"error":"Too many player connected"}, Date.now())
                 client.close()
-                /*this.dataHandling.create_lobby(15, 25)
-                this.dataHandling.create_player(25, "Cardiaque", client)*/
-                }
+            /*this.dataHandling.create_lobby(15, 25)
+            this.dataHandling.create_player(25, "Cardiaque", client)*/
+            }
 
             client.on("close", (code, reason)=>{
                 this.on_deconnexion(code, reason)
@@ -56,30 +55,32 @@ class ServerHandling {
  * @param {String} code 
  * @param {String} reason 
  */
-    on_deconnexion(code, reason){
-        this.players =-1
-        debug(`Connexion closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
-    }
+ on_deconnexion(code, reason){
+    this.players =-1
+    debug(`Connexion closed with code: ${code}, raison: ${reason.toString() ? reason.toString() : "Aucune"}`);
+    this.dataHandling.delete_player()
+}
 
 /**
- * Quand un client se connecte, la fonction récupère son ID et les informations du client et
- * les envoie dans le DataHandler qui s'occupe d'envoyer les informations aux bons endroits.
- * Il change aussi le nombre de personnes connectés actuellement (+1).
- * @param {WebSocket} client
- */
-    on_connexion(client){
-        this.players ++
-        console.log(`Une personne vient de se connecter, ID : ${JSON.stringify(client[0])}`)
+* Quand un client se connecte, la fonction récupère son ID et les informations du client et
+* les envoie dans le DataHandler qui s'occupe d'envoyer les informations aux bons endroits.
+* Il change aussi le nombre de personnes connectés actuellement (+1).
+* @param {WebSocket} client
+*/
+on_connexion(client, server){
+    this.players ++
+    debug(`Une personne vient de se connecter, ID : ${JSON.stringify(client[0])}`)
+    debug(`Nombre de clients : ${server.clients.size}`)
 
-        client.on("message", message =>{
-            try {
-                this.dataHandling.use_data(client, message, Date.now())
-                console.log("Nouveau message")
-            } catch (error) {
-                debugError(error);
-            };
-        })
-    }
+    client.on("message", message =>{
+        try {
+            this.dataHandling.use_data(client, message, Date.now())
+            console.log("Nouveau message")
+        } catch (error) {
+            debugError(error);
+        };
+    })
+}
 /**
  * Permet de connaitre le nombre de joueurs qu'il y a actuellement sur le serveur.
  * @returns this.players
