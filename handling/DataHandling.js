@@ -22,7 +22,7 @@ class DataHandling {
  * @param {int} date
  */
     send_data(client, data, date){
-        client.send(JSON.stringify({data, date}))
+        client.send(Buffer.from(JSON.stringify({data, date}), "utf-8"))
     }
 
 /**
@@ -43,7 +43,7 @@ class DataHandling {
             this.handle_data_for_clients(client, parsedMessage)
         }
         if(parsedMessage["connexion"]){
-            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, 15, client)
+            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, parsedMessage.data.account.id, client)
         }
         else if(parsedMessage["client_type"] == "api"){
             this.handle_data_for_api(parsedMessage, client, parsedMessage.method)
@@ -56,9 +56,13 @@ class DataHandling {
     }
 /**
  * 
+ * @param {WebSocket} client 
+ * @param {JSON} data 
  */
     handle_data_for_clients(client, data){
-        debug("Un client a envoyé une requête")
+        //this.lobby[0].players.find(player => player.id == data.id).manage_player(data)
+        this.lobby[0].manage_data_to_players(data, 2)
+        this.lobby[0].test_players_positions()
     }
 
     handle_data_for_api(message, client, method){
@@ -82,7 +86,7 @@ class DataHandling {
  * @param {Array} playersID 
  * @param {int} max_players 
  */
-     create_lobby(id, max_players){
+    create_lobby(id, max_players){
         this.lobby.push(new Room(id, max_players))
     }
 

@@ -1,4 +1,5 @@
-const { debug, debugError } = require ("../utils/debug.js")
+const { threadId } = require("worker_threads")
+const { debug, debugError, playerMessage } = require ("../utils/debug.js")
 const Player = require("./entities/actor/players/player.js")
 
 
@@ -32,7 +33,7 @@ class Room {
         debug("Un joueur a été créé")
         //this.players[tag] = {username: username, tag: tag, client:client }
     }
-        debug(`Tout les joueurs : ${JSON.stringify(this.players)}`)
+        debug(`Tout les joueurs : ${this.players})`)
     }
 /**
  * 
@@ -53,16 +54,15 @@ class Room {
         }
     }
 /**
- * @param {int} tag
- * @param {String} username
- * @param {WebSocket} client 
+ * @param {int} id
+ * @param {WebSocket} client
+ * @returns
  */
-    find_players(tag, username, client){
+    find_players(id, client){
         try {
-            debug("Trouvé via l'id : " + this.players.find(player => player.tag = tag))
-            this.players.find(player => player.tag = tag).validate_position((0.1,25,25))
+            return this.players.find(player => player.id = id)
         } catch {
-            debug("Trouvé via le pseudo : " + this.players.find(player => player.username == username))
+            return this.players.find(player => player.client == client)
         }
         /*var hehe = this.players.find(player => player.client = client)
         debug("Client trouvé : " + JSON.stringify(hehe))
@@ -75,6 +75,24 @@ class Room {
     get_amount_players(){
         return this.players.length()
     }
+    test_players_positions(){
+        this.players.forEach(player => {
+            console.log("[TEST] ", player)
+        })
+    }
+    
+    manage_data_to_players(data, id){
+        var player = this.find_players(id)
+        var all_players = this.players.filter(player => player.id !== id)
+        var players_to_send = []
+        for(var i = 0; i < all_players.length; i++){
+            players_to_send.push({id:all_players[i].id,position:all_players[i].position, username:all_players[i].username, tag:all_players[i].tag})
+        }
+        console.log(players_to_send)
+        player.client.send(Buffer.from(JSON.stringify({self:player.manage_player(data)/*, others:players_to_send*/}),"utf-8"))
+        player.set_position()
+    }
+
 }
 
 module.exports = Room

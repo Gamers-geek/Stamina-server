@@ -1,4 +1,4 @@
-const { debugEnabled } =require ("../config.js")
+const { debugEnabled, playerEnabled } =require ("../config.js")
 
 function debug(message) {
     if(debugEnabled == true){
@@ -10,4 +10,9 @@ function debugError(message) {
     console.log("[ERROR] ", message)
 }
 
-module.exports = {debug, debugError}
+function playerMessage(message) {
+    if(playerEnabled == true){
+        console.log("[PLAYER] ", message)
+    }
+}
+module.exports = {debug, debugError, playerMessage}
