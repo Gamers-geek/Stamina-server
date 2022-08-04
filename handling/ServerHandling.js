@@ -75,7 +75,7 @@ on_connexion(client, server){
     client.on("message", message =>{
         try {
             this.dataHandling.use_data(client, message, Date.now())
-            console.log("Nouveau message")
+            //console.log("Nouveau message")
         } catch (error) {
             debugError(error);
         };

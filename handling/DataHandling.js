@@ -61,8 +61,8 @@ class DataHandling {
  */
     handle_data_for_clients(client, data){
         //this.lobby[0].players.find(player => player.id == data.id).manage_player(data)
-        this.lobby[0].manage_data_to_players(data, 2)
-        this.lobby[0].test_players_positions()
+        this.lobby[0].manage_data_to_players(data, data.id)
+        //console.log("[TEST] Joueur qui envoie : ", data.id, "Sa position : ", data.PlayerID.Player.Position)
     }
 
     handle_data_for_api(message, client, method){
