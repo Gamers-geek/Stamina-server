@@ -36,23 +36,25 @@ class DataHandling {
     use_data(client, data, date){
         let StringMessage = data.toString()
         let parsedMessage = JSON.parse(StringMessage);
-        if (!parsedMessage) {
-            return debugError("Invalid message format", message);
-        };
-        if(parsedMessage["client_type"] == "client"){
-            this.handle_data_for_clients(client, parsedMessage)
+        switch(true){
+            case !parsedMessage:
+                console.log("Invalid message format")
+                break;
+            case parsedMessage.client_type == "client":
+                console.log("something")
+                this.handle_data_for_clients(client, parsedMessage)
+                break
+            case parsedMessage.status == "connexion":
+                console.log("Un joueur s'est connecté")
+                this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, parsedMessage.data.account.id, client)
+                break;
+            case parsedMessage.status == "deconnexion":
+                this.lobby[0].delete_players(parsedMessage.data.account.id, client)
+                console.log("Un joueur s'est déconnecté")
+                break;
+            default:
+                console.log("DEFAULT")
         }
-        if(parsedMessage["connexion"]){
-            this.lobby[0].create_players(parsedMessage["data"]["account"]["tag"], parsedMessage.data.account.username, parsedMessage.data.account.id, client)
-        }
-        else if(parsedMessage["client_type"] == "api"){
-            this.handle_data_for_api(parsedMessage, client, parsedMessage.method)
-        }
-        else if(parsedMessage["client_type"] == "admin"){
-            this.handle_data_for_admin(client)
-        }
-        debug(`Nouveau message`, parsedMessage,` \n Envoyé à : ${date}\n Types de demandes : ${parsedMessage.client_type}`)
-        // \n Envoyé par : ${JSON.stringify(client)} 
     }
 /**
  * 
@@ -65,23 +67,7 @@ class DataHandling {
         //console.log("[TEST] Joueur qui envoie : ", data.id, "Sa position : ", data.PlayerID.Player.Position)
     }
 
-    handle_data_for_api(message, client, method){
-        if (!methods[method])  {
-            debug(`Quelqu'un a voulu utiliser la fonction "${method}" qui n'existe pas.`)
-            return client.send(JSON.stringify({
-                error: 400
-            })) // si méthod n'existe pas, renvoyer le code 400
-    
-        }
-    
-        methods[method].run(message, client)
-    }
-
-    handle_data_for_admin(client, data, method){
-        debug("Un admin a envoyé une requête")
-    }
-
-    /**
+/**
  * @param {int} id 
  * @param {Array} playersID 
  * @param {int} max_players 

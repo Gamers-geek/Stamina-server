@@ -9,10 +9,10 @@ let server = new ServerHandling("lws-mirror-protocol")
 //Lance toute la logique du serveur
 server.run()
 
-let hehe = new Api()
+/*let hehe = new Api()
 hehe.run()
 
-hehe.get_games_amount()
+hehe.get_games_amount()*/
 //hehe.get_players_amount()
 
 /*let lobby = []
