@@ -1,13 +1,12 @@
 //Ce fichier ne sert qu'à lancer la logique du serveur et de tout ce qui s'y rapporte et qui ont besoin d'un lancement immédiat.
-const Room = require ("./Game/Room.js")
+const Room = require("./Game/Room.js");
 const ServerHandling = require("./handling/ServerHandling.js");
-const Api = require ("./site/Connexion.js");
-
+const Api = require("./site/Connexion.js");
 
 //Instancie la classe ServerHandling pour pouvoir démarrer le serveur
-let server = new ServerHandling("lws-mirror-protocol")
+let server = new ServerHandling("lws-mirror-protocol");
 //Lance toute la logique du serveur
-server.run()
+server.run();
 
 /*let hehe = new Api()
 hehe.run()

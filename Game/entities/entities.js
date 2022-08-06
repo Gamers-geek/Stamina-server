@@ -1,5 +1,8 @@
 class Entities {
-    constructor(position){
+    /**
+     * @param {Vector3} position
+     */
+    constructor(position) {
         this.position = position
     }
 }

@@ -15,11 +15,12 @@ class Room {
     }
 
     /**
+     * @function create_players
+     * @description Instancie une nouvelle classe Player qui s'occupera de gérer la logique d'un joueur défini par son id et username
      * @param {int} tag 
      * @param {String} username
      * @param {int} id
      * @param {WebSocket} client
-     * Instancie une nouvelle classe Player qui s'occupera de gérer la logique d'un joueur défini par son id et username
      */
     create_players(tag, username, id, client) {
         let player = this.players.find(player => player.id == id)
@@ -34,11 +35,11 @@ class Room {
         debug(`Tout les joueurs : ${this.players}`)
     }
     /**
-     * 
+     * @function delete_players
+     * @description Supprime le joueur correspondant à l'id passé en paramètre.
      * @param {String} tag 
-     * @param {Stirng} username 
      * @param {WebSocket} client 
-     * @returns 
+     * @returns {String}
      */
     delete_players(id, client) {
         try {
@@ -52,10 +53,13 @@ class Room {
             return ("No player or disfunctional function")
         }
     }
+
     /**
+     * @function find_players
+     * @description Retourne le joueur correspondant à l'id passé en paramètre.
      * @param {int} id
      * @param {WebSocket} client
-     * @returns
+     * @returns {Player}
      */
     find_players(id, client) {
         try {
@@ -68,13 +72,32 @@ class Room {
         return(hehe)*/
     }
 
+    /**
+     * @function handle_players
+     * @description Gère les requêtes des joueurs.
+     * @param {WebSocket} client 
+     * @param {JSON} data 
+     * @returns {void}
+     */
     handle_players(client, data) {
         this.find_players(client)
     }
+
+    /**
+     * @function get_amount_players
+     * @description Retourne le nombre de joueurs dans la partie.
+     * @returns {number}
+     */
     get_amount_players() {
         return this.players.length()
     }
 
+    /**
+     * @function manage_data_to_players
+     * @description Gère la synchronisation des données entre les joueurs.
+     * @param {JSON} data 
+     * @param {int} id 
+     */
     manage_data_to_players(data, id) {
         let player_found = this.find_players(id)
         var all_players = this.players.filter(player => player.id !== player_found.id)
@@ -87,7 +110,5 @@ class Room {
         //console.log("[TEST] Mec qui doit recevoir : ", player_found.username, "\n", {self:truc, others:players_to_send})
         player_found.set_position()
     }
-
-
 }
 module.exports = Room
