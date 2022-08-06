@@ -8,22 +8,25 @@ class Player {
      * @param {int} id
      * @param {WebSocket} client
      * @param {Vector3} position
+     * @param {float} rotation
      */
-    constructor(tag, username, id, client, position) {
+    constructor(tag, username, id, client, position, rotation){
         this.tag = tag
         this.username = username
         this.id = id
         this.client = client
         this.position = position
+        this.rotation = rotation
         this.oldPosition
     }
     /**
      * @function validate_position
      * @description Vérifie que la position du joueur est valide.
      * @param {Vector3} position 
+     * @param {float} rotation
      * @returns {JSON}
      */
-    validate_position(position) {
+    validate_position(position, rotation) {
         this.position = position
         playerMessage(`Position actuelle de ${this.username}#${this.tag} : ${this.position}`)
         playerMessage(`Ancienne position de ${this.username}#${this.tag} : ${this.oldPosition}`)
@@ -45,7 +48,7 @@ class Player {
      */
     manage_player(data) {
         //this.client.send(Buffer.from(JSON.stringify({position:this.validate_position(data.PlayerID.Player.Position)}), "utf-8"))
-        return ({ position: this.validate_position(data.PlayerID.Player.Position) })
+        return ({position:this.validate_player_actions(data.PlayerID.Player.Position, data.PlayerID.Player.Rotation)})
     }
 }
 
