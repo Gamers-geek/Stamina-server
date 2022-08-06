@@ -1,5 +1,5 @@
-class Actor  {
-    constructor(){
+class Actor {
+    constructor() {
     }
 }
 
