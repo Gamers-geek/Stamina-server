@@ -10,17 +10,19 @@ Stamina-server est un projet sous license MIT pour l'instant, permettant de fair
 ## Configuration
 
 Le fichier de configuration `config.js` se présente de la manière suivante :
+
 ```js
 module.exports = {
-    port: 2025,
-    debugEnabled: true,
-    maxPlayer: "2"
-}
-``` 
+	port: 2025,
+	debugEnabled: false,
+	playerEnabled: false,
+	maxPlayer: 5,
+	version: "0.0.1",
+};
+```
+
 Le serveur utilise par défaut le port 2025. Ce port peut-être modifié à n'importe quel moment en modifiant les valeurs dans le fichier `config.js`.
 
 Vous pouvez activer ou désactiver quand vous voulez le système de débug en changeant la valeur de `debugEnabled`.
 
-Vous pouvez aussi limiter le nombre de personnes qui peuvent se connecter aux serveurs en modifiant la valeur de `maxPlayer`. 
-> Actuellement c'est en **String** mais ça devrait fonctionner avec des **int** normalement.
-
+Vous pouvez aussi limiter le nombre de personnes qui peuvent se connecter aux serveurs en modifiant la valeur de `maxPlayer`.

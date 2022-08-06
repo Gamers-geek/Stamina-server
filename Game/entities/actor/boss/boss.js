@@ -1,5 +1,5 @@
 class Boss {
-    constructor(){
+    constructor() {
     }
 }
 

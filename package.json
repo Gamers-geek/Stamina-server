@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/node": "^18.0.0",
     "mysql": "^2.18.1",
+    "colors": "^1.4.0",
     "three": "^0.141.0",
     "websocket-as-promised": "^2.0.1",
     "ws": "^8.8.0"
