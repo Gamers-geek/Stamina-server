@@ -2,7 +2,8 @@ const { debug, debugError } = require("../utils/debug.js")
 const ServerHandling = require("./ServerHandling.js")
 const methods = require("../handler.js")
 const Room = require("../Game/Room")
-const { parse } = require("path")
+const mysql = require("mysql")
+
 
 // Le système de date est obligatoire, car il permettra de mettre en place le systeme de ping et le systeme de pertes des paquets.µ
 // Si un paquet est trop vieux on pourra le considérer comme inutile
@@ -15,8 +16,8 @@ class DataHandling {
 
     /**
      * @description Cette fonction renverra les données au client concernées, peu importe le type de données.
-     * @description Elle pourra être utilisée partout, car son unique but est de renvoyer des données.
-     * @description Plus tard, il y aura un chiffrement des données pour éviter tout problème.
+     *  Elle pourra être utilisée partout, car son unique but est de renvoyer des données.
+     *  Plus tard, il y aura un chiffrement des données pour éviter tout problème.
      * @param {WebSocket} client
      * @param {String} data
      * @param {int} date
@@ -27,8 +28,8 @@ class DataHandling {
 
     /**
      * @description Cette fonction s'occupera de partager les différentes données envoyées du client au serveur vers les "services compétents".
-     * @description La position sera par exemple envoyées vers la classe Player et sa fonction ValidatePosition() qui elle renverra au client si la position est valide ou non.
-     * @description Elle fonctionne avec une boucle for car plusieurs données utiles sont envoyées dans un seul JSON
+     *  La position sera par exemple envoyées vers la classe Player et sa fonction ValidatePosition() qui elle renverra au client si la position est valide ou non.
+     *  Elle fonctionne avec une boucle for car plusieurs données utiles sont envoyées dans un seul JSON
      * @param {WebSocket} client
      * @param {String} data
      * @param {int} date
@@ -100,7 +101,7 @@ class DataHandling {
 
     /**
      * @function create_lobby
-     * @description Créé une partie
+     * @description Crée une partie
      * @param {int} id 
      * @param {Array} playersID 
      * @param {int} max_players 

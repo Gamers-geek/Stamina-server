@@ -103,10 +103,11 @@ class Room {
         var all_players = this.players.filter(player => player.id !== player_found.id)
         var players_to_send = []
         all_players.forEach(e => {
-            players_to_send.push({ id: e.id, username: e.username, tag: e.tag, positionX: e.position.x, positionY: e.position.y, positionZ:e.position.z, rotation: e.rotation })
+            players_to_send.push({ id: e.id, username: e.username, tag: e.tag, positionX: e.position.x, positionY: e.position.y, positionZ:e.position.z, rotation: e.rotation, player_status: e.player_status })
         })
         let truc = this.players.find(player => player.id == id).manage_player(data)
-        player_found.client.send(Buffer.from(JSON.stringify({ self: truc, others: players_to_send })), "utf8")
+        //player_found.client.send(Buffer.from(JSON.stringify({ self: truc, others: players_to_send })), "utf8")
+        player_found.client.send(Buffer.from(JSON.stringify({ self: truc, others: [{id:2564, username:"Salut", tag:"3658", positionX:5.0,positionY:1.5, positionZ:8.0, rotation:1.56489, player_status:0}]})), "utf8")
         //console.log("[TEST] Mec qui doit recevoir : ", player_found.username, "\n", {self:truc, others:players_to_send})
         player_found.set_position()
     }

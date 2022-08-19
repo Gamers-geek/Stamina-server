@@ -1,4 +1,9 @@
 const { playerMessage } = require("../../../../utils/debug")
+const PLAYER_STATUS = Object.freeze({
+    IDLING: 0,
+    PLAYING: 1,
+    ON_MENU: 2
+})  
 
 class Player {
     /**
@@ -18,6 +23,7 @@ class Player {
         this.position = position
         this.rotation = rotation
         this.oldPosition
+        this.player_status = PLAYER_STATUS.IDLING
     }
     /**
      * @function validate_position
@@ -26,7 +32,7 @@ class Player {
      * @param {float} rotation
      * @returns {JSON}
      */
-    validate_position(position, rotation) {
+    validate_player_actions(position, rotation) {
         this.position = position
         playerMessage(`Position actuelle de ${this.username}#${this.tag} : ${this.position}`)
         playerMessage(`Ancienne position de ${this.username}#${this.tag} : ${this.oldPosition}`)
