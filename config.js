@@ -1,7 +1,8 @@
 module.exports = {
 	port: 2025,
-	debugEnabled: false,
-	playerEnabled: false,
-	maxPlayer: 5,
+	debugEnabled: true,
+	playerEnabled: true,
+	maxPlayer: 0,
 	version: "0.0.1",
+	physicTicAmount: 50
 };

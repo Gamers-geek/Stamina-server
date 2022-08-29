@@ -1,0 +1,54 @@
+const { port } = require("../config.js");
+const { NotFoundError, BadRequestError, ForbidenError } = require("../ErrorSystem/Errors.js");
+const { OkSuccess } = require("../ErrorSystem/Success.js");
+const { debug, debugError } = require("../utils/debug.js");
+const ServerInstance = require("./ServerInstance.js");
+let instances = []
+var amountInstance = 0
+
+ class Server {
+
+	static run(){
+		try{
+			let serverInstance = new ServerInstance("firstServer", port, "lws-mirror-protocol")
+			serverInstance.run()
+			instances.push(serverInstance)
+			amountInstance = 1
+			return new OkSuccess(serverInstance, "Instanciation du premier serveur réussie")
+		} catch {
+			return new BadRequestError("Impossible de générer le premier serveur au port : " + port)
+		}
+	}
+
+    static createServerInstance(serverName, protocol, serverPort){
+		try {
+			let serverInstance = new ServerInstance(serverName, protocol, serverPort)
+			serverInstance.run()
+			instances.push(serverInstance)
+			amountInstance += 1
+			return new OkSuccess(serverInstance, "Instanciation réussie")
+		} catch {
+			return new BadRequestError("Impossible d'instancier le serveur : " + serverName + " au port : " + serverPort)
+		}
+    }
+
+	static deleteServerInstance(serverName){
+		try {
+			let serverToDelete = instances.indexOf(instances.find(server => server.serverName == serverName))
+			instances.splice(serverToDelete)
+			return new OkSuccess(serverName, "Le serveur a été correctement supprimé")
+		} catch{
+			return new NotFoundError("L'instance du serveur : \"" + serverName + "\" n'existe pas")
+		}
+	}
+
+	static getAllServerInstances(){
+		try {
+			return new OkSuccess(instances, "Toutes les instances de serveur")
+		} catch{
+			return new ForbidenError("Impossible de répondre à la requête")
+		}
+	}
+}	
+
+module.exports = Server
