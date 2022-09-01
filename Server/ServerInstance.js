@@ -1,10 +1,10 @@
 const { WebSocket } = require("ws");
-const { port, maxPlayer, physicTicAmount } = require("../config.js");
-const Sender = require("../Handling/Sender.js");
+const { maxPlayer, physicTicAmount } = require("../config.js");
 const { UnauthorizedError } = require("../ErrorSystem/Errors.js");
 const { OkSuccess } = require("../ErrorSystem/Success.js");
 const Players = require("../Player/Player.js");
 const Debug = require("../utils/debug.js");
+const PackageManager = require("./ServerSystems/PackageManager.js");
 
 class ServerInstance{
     constructor(serverName, port=null, protocol=null, amountPlayer=null, physic_tic=null){
@@ -17,7 +17,7 @@ class ServerInstance{
             this.amountPlayer = amountPlayer
         }
         this.players = 0
-        this.sender = new Sender()
+        this.packageManager = new PackageManager()
         this.runStatut = true
         this.allPlayers = []
         if(physic_tic == null){
@@ -91,7 +91,7 @@ class ServerInstance{
         while(this.runStatut == true){
             let startWork = Date.now()
             let eachTics = 1000/this.physic_tic
-            //this.sender.send_data()
+            this.packageManager.sendPackages(this.allPlayers)
             let endWork = Date.now() - startWork
             //Debug.debug("Coucou les mecs ! " + Date.now())
             await new Promise(resolve => setTimeout(resolve, 1000/eachTics-endWork));

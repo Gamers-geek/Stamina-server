@@ -1,8 +1,8 @@
-const { NotFoundError, BadRequestError } = require("../ErrorSystem/Errors")
-const { OkSuccess } = require("../ErrorSystem/Success")
-const Debug = require("../utils/debug")
+const { NotFoundError, BadRequestError } = require("../../ErrorSystem/Errors")
+const { OkSuccess } = require("../../ErrorSystem/Success")
+const Debug = require("../../utils/debug")
 
-class Sender{
+class PackageManager{
     constructor(){
         this.clients = []
         this.version = 0
@@ -12,12 +12,11 @@ class Sender{
         this.basicDataToSend = {"Players":[], "version":this.version}
     }
 
-    send_data(data){
+    send_data(allPlayers, data){
         //console.log(this.version)
         let dataToSend = this.basicDataToSend
-        this.players.forEach(player => {
+        this.allPlayers.forEach(player => {
             //Debug.debug("SIKHGISKHGISKHVGIKSHG")
-            //Debug.debug(this.players[0])
             if(player.version == this.version){
                 dataToSend.Players = this.actualVersion
                 dataToSend.version = this.version
@@ -84,4 +83,4 @@ class Sender{
 
 }
 
-module.exports = Sender
+module.exports = PackageManager
