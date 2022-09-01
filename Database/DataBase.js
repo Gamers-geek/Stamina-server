@@ -1,7 +1,7 @@
 const mariadb = require("mariadb");
 const { BadRequestError } = require("../ErrorSystem/Errors");
 const { OkSuccess } = require("../ErrorSystem/Success");
-const {debug} = require("../utils/debug")
+const Debug = require("../utils/debug")
 
 const pool = mariadb.createPool({
     host:process.env.DBHOST,
@@ -24,7 +24,7 @@ class DataBase{
             [server.serverName, server.port, server.protocol, server.amountPlayer, server.sender, server.runStatut, server.allPlayers, server.physicTic, server.id])
             console.log(res)   
         }/*catch{
-            debug(new BadRequestError())
+            Debug.debug(new BadRequestError())
         }*/finally{
             if(conn) conn.release();
         }

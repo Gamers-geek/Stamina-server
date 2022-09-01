@@ -1,6 +1,6 @@
 const { NotFoundError, BadRequestError } = require("../ErrorSystem/Errors")
 const { OkSuccess } = require("../ErrorSystem/Success")
-const {debug} = require("../utils/debug")
+const Debug = require("../utils/debug")
 
 class Sender{
     constructor(){
@@ -16,8 +16,8 @@ class Sender{
         //console.log(this.version)
         let dataToSend = this.basicDataToSend
         this.players.forEach(player => {
-            //debug("SIKHGISKHGISKHVGIKSHG")
-            //debug(this.players[0])
+            //Debug.debug("SIKHGISKHGISKHVGIKSHG")
+            //Debug.debug(this.players[0])
             if(player.version == this.version){
                 dataToSend.Players = this.actualVersion
                 dataToSend.version = this.version

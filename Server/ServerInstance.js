@@ -1,10 +1,10 @@
 const { WebSocket } = require("ws");
 const { port, maxPlayer, physicTicAmount } = require("../config.js");
-const { debug, debugError } = require("../utils/debug.js");
 const Sender = require("../Handling/Sender.js");
 const { UnauthorizedError } = require("../ErrorSystem/Errors.js");
 const { OkSuccess } = require("../ErrorSystem/Success.js");
 const Players = require("../Player/Player.js");
+const Debug = require("../utils/debug.js");
 
 class ServerInstance{
     constructor(serverName, port=null, protocol=null, amountPlayer=null, physic_tic=null){
@@ -31,13 +31,13 @@ class ServerInstance{
     run(){
         const server = new WebSocket.Server({ port: this.port, proto: this.protocol });
 
-		debug(`Server started on port ${this.port}, with protocol : ${this.protocol}!`);
+		Debug.debug(`Server started on port ${this.port}, with protocol : ${this.protocol}!`);
 
 		server.on("connection", (client) => {
             client.on("message", (message)=> {
                 let StringMessage = message.toString()
                 let parsedMessage = JSON.parse(StringMessage);
-                debug("YOOOOO !")
+                Debug.debug("YOOOOO !")
                 console.log(parsedMessage)
                 switch(true){            
                     case !parsedMessage:
@@ -57,8 +57,8 @@ class ServerInstance{
                             parsedMessage.player.id,
                             client,
                             version++)
-                        debugError("MMMMMMMHH")
-                        debug(something)
+                        Debug.debugError("MMMMMMMHH")
+                        Debug.debug(something)
                         this.sender.addClient(something)
                         something.getAllPackets()
                         break;
@@ -74,8 +74,8 @@ class ServerInstance{
 				client.send(Buffer.from(new UnauthorizedError("Impossible de se connecter pour l'instant"), "utf8"))
 				client.close();
 			} else {
-                //debug(new OkSuccess(client, "Nouveau client connecté !"))
-                //debug(this.sender.addClient(new Players({x:0.2, y:0.3, z:58.0}, 1.265548, "Gipson62", 256, 2365, client, this.sender, 1)))
+                //Debug.debug(new OkSuccess(client, "Nouveau client connecté !"))
+                //Debug.debug(this.sender.addClient(new Players({x:0.2, y:0.3, z:58.0}, 1.265548, "Gipson62", 256, 2365, client, this.sender, 1)))
                 console.log("Quelqu'un s'est connecté")
             }
 
@@ -93,7 +93,7 @@ class ServerInstance{
             let eachTics = 1000/this.physic_tic
             //this.sender.send_data()
             let endWork = Date.now() - startWork
-            //debug("Coucou les mecs ! " + Date.now())
+            //Debug.debug("Coucou les mecs ! " + Date.now())
             await new Promise(resolve => setTimeout(resolve, 1000/eachTics-endWork));
         }
     }
