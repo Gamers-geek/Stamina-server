@@ -1,6 +1,7 @@
 const { NotFoundError, BadRequestError } = require("../../ErrorSystem/Errors")
 const { OkSuccess } = require("../../ErrorSystem/Success")
 const Debug = require("../../utils/debug")
+const basicDataToSend = {"Players":[], "version": 0, "Data": []}
 
 class PackageManager{
     constructor(){
@@ -9,7 +10,6 @@ class PackageManager{
         this.actualVersion = []
         this.allOldVersion = []
         this.oldVersionsOrder = []
-        this.basicDataToSend = {"Players":[], "version":this.version}
     }
 /**
  * 
@@ -17,30 +17,18 @@ class PackageManager{
  * @param {Array} data 
  */
     sendPackages(allPlayers, data=null){
-        let dataToSend ;
-        if(data == null){
-            dataToSend = this.basicDataToSend
-        } else {
-            dataToSend = this.basicDataToSend
-            dataToSend.data = data
+        //console.log(allPlayers)
+        let dataToSend = {"Players":[], "version":this.version, "Data":[]}
+        if(data){
+            dataToSend.Data = data
         }
-        /*allPlayers.forEach(player => {
-            //Debug.debug("SIKHGISKHGISKHVGIKSHG")
-            if(player.version == this.version){
-                dataToSend.Players = this.actualVersion
-                dataToSend.version = this.version
-            /*} 
-            else if(player.version != this.version){
-                player.client.send(Buffer.from(JSON.stringify(new BadRequestError("Version Error"))))
-            } else {
-                let indexPlayer = this.oldVersionsOrder.indexOf(player.version)
-                dataToSend.Players.push(this.allOldVersion[indexPlayer])
-                player.version ++
-            }
-            player.client.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
-        });
-        */
-
+        allPlayers.forEach((player, index) => {
+            let somethingToSend = dataToSend.Players.splice(index)
+            dataToSend.Players.push({"position" : player.position, "rotation" : player.rotation})
+            player.client.send(Buffer.from(JSON.stringify(somethingToSend),"utf-8"))
+        })
+        Debug.debug(dataToSend)
+        dataToSend = {"Players":[], "version":this.version, "Data":[]}
     }
 
     addClient(clientToAdd){
