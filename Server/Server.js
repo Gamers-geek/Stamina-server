@@ -1,7 +1,9 @@
 const { port } = require("../config.js");
+const DataBase = require("../Database/DataBase.js");
 const { NotFoundError, BadRequestError, ForbidenError } = require("../ErrorSystem/Errors.js");
 const { OkSuccess } = require("../ErrorSystem/Success.js");
 const { debug, debugError } = require("../utils/debug.js");
+const HTTPServer = require("./HTTPServer.js");
 const ServerInstance = require("./ServerInstance.js");
 let instances = []
 var amountInstance = 0
@@ -10,10 +12,17 @@ var amountInstance = 0
 
 	static run(){
 		try{
+			let something = []
 			let serverInstance = new ServerInstance("firstServer", port, "lws-mirror-protocol")
+			let HTTPServerInstance = new HTTPServer()
 			serverInstance.run()
-			instances.push(serverInstance)
+			something.push(serverInstance)
+			something.push(HTTPServerInstance)
+			instances.push(something)
 			amountInstance = 1
+			HTTPServerInstance.app.get("*", function(req, res){
+				res.send("Hello World !")
+			})
 			return new OkSuccess(serverInstance, "Instanciation du premier serveur réussie")
 		} catch {
 			return new BadRequestError("Impossible de générer le premier serveur au port : " + port)

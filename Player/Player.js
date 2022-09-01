@@ -1,6 +1,7 @@
 const { BadRequestError } = require("../ErrorSystem/Errors")
 const { OkSuccess } = require("../ErrorSystem/Success")
 const THREE = require("three")
+const DataBase = require("../Database/DataBase")
 const PLAYER_STATUS = Object.freeze({
     IDLING: 0,
 	WALKING: 1,
@@ -14,7 +15,7 @@ const PLAYER_STATUS = Object.freeze({
 
 
 class Players {
-    constructor(position, rotation, username, tag, id, client, sender, version){
+    constructor(position, rotation, username, tag, id, client, version){
         this.position = new THREE.Vector3(position.x, position.y, position.z)
         this.rotation = rotation,
         this.username = username,
@@ -23,7 +24,6 @@ class Players {
         this.client = client
         this.playerStatut = PLAYER_STATUS.IDLING
         this.oldPosition
-        this.sender = sender
         this.version = version
     }
 
@@ -59,9 +59,8 @@ class Players {
     }
 
     getAllPackets(){
-        let dataToSend = {"Players": this.sender.players, "version": this.sender.version}
-        this.client.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
-        this.version = this.sender.version
+        let dataToSend = DataBase.getAllPackets()
+        console.log(dataToSend)
     }
 
 }

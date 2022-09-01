@@ -9,16 +9,15 @@ class Sender{
         this.actualVersion = []
         this.allOldVersion = []
         this.oldVersionsOrder = []
-        this.players = []
         this.basicDataToSend = {"Players":[], "version":this.version}
     }
 
-    send_data(){
+    send_data(data){
         //console.log(this.version)
         let dataToSend = this.basicDataToSend
         this.players.forEach(player => {
-            debug("SIKHGISKHGISKHVGIKSHG")
-            debug(this.players[0])
+            //debug("SIKHGISKHGISKHVGIKSHG")
+            //debug(this.players[0])
             if(player.version == this.version){
                 dataToSend.Players = this.actualVersion
                 dataToSend.version = this.version

@@ -21,10 +21,11 @@ class ServerInstance{
         this.runStatut = true
         this.allPlayers = []
         if(physic_tic == null){
-            this.physic_tic = physicTicAmount
+            this.physicTic = physicTicAmount
         } else {
-            this.physic_tic = physic_tic
+            this.physicTic = physic_tic
         }
+        this.id = Math.random() * 50
     }
 
     run(){
@@ -55,7 +56,6 @@ class ServerInstance{
                             parsedMessage.player.tag,
                             parsedMessage.player.id,
                             client,
-                            this.sender,
                             version++)
                         debugError("MMMMMMMHH")
                         debug(something)
@@ -91,7 +91,7 @@ class ServerInstance{
         while(this.runStatut == true){
             let startWork = Date.now()
             let eachTics = 1000/this.physic_tic
-            this.sender.send_data()
+            //this.sender.send_data()
             let endWork = Date.now() - startWork
             //debug("Coucou les mecs ! " + Date.now())
             await new Promise(resolve => setTimeout(resolve, 1000/eachTics-endWork));

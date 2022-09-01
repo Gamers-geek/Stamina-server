@@ -7,11 +7,20 @@
     "start": "node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Gipson62",
+  "repository": {
+    "author": "Gipson62, Quentin72000, TheBacou, Gamers-Geek",
+    "type": "git",
+    "url": "git+https://github.com/Stamina-Organization/Stamina-server.git"
+  },
+  "author": "Gipson62, Quentin72000, TheBacou, Gamers-Geek",
+  "bugs": {
+    "url": "https://github.com/Stamina-Organization/Stamina-server/issues"
+  },
+  "homepage": "https://github.com/Stamina-Organization/Stamina-server#readme",
   "license": "MIT",
   "dependencies": {
     "colors": "^1.4.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "mariadb": "^3.0.1",
     "three": "^0.143.0",

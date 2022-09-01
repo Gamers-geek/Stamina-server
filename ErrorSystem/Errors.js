@@ -3,12 +3,6 @@ class Error{
         this.error_name = error_name
         this.details = details
         this.code = code
-        this.as_string()
-    }
-
-    as_string(){
-        let result = `${this.error_name} : ${this.details}`
-        return result
     }
 }
 

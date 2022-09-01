@@ -4,15 +4,6 @@ class Success{
         this.details = details
         this.code = code
         this.content = content
-        this.as_string()
-    }
-
-    as_string(){
-        let result = ""
-        if(this.details == null){
-            result = `${this.succes_type}`
-        }else result = `${this.succes_type} : ${this.details}`
-        return result
     }
 }
 
