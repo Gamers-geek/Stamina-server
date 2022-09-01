@@ -11,9 +11,11 @@ const pool = mariadb.createPool({
     database:process.env.DBDATABASE
 })
 
+/**
+ * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.
+ */
 class DataBase{
     /**
-     * 
      * @param {ServerInstance} server 
      */
     static async saveNewServer(server){

@@ -7,27 +7,32 @@ const Debug = require("../utils/debug.js");
 const PackageManager = require("./ServerSystems/PackageManager.js");
 
 class ServerInstance{
-    constructor(serverName, port=null, protocol=null, amountPlayer=null, physic_tic=null){
+    /**
+     * 
+     * @param {String} serverName 
+     * @param {Number} port 
+     * @param {String} protocol 
+     * @param {Number} amountPlayer 
+     */
+    constructor(serverName, port=null, protocol=null, amountPlayer=null){
         this.serverName = serverName
         this.port = port
         this.protocol = protocol
-        if(amountPlayer == null){
-            this.amountPlayer = maxPlayer
-        } else {
+        if(amountPlayer){
             this.amountPlayer = amountPlayer
+        } else {
+            this.amountPlayer = maxPlayer
         }
         this.players = 0
         this.packageManager = new PackageManager()
         this.runStatut = true
         this.allPlayers = []
-        if(physic_tic == null){
-            this.physicTic = physicTicAmount
-        } else {
-            this.physicTic = physic_tic
-        }
         this.id = Math.random() * 50
+        this.physicTic = physicTicAmount
     }
-
+/**
+ * Démarre le protocole WebSocket et trie pour l'instant les messages entrant. Plus tard se sera délégué à l'EventHandler
+ */
     run(){
         const server = new WebSocket.Server({ port: this.port, proto: this.protocol });
 
@@ -87,14 +92,18 @@ class ServerInstance{
         })
         this.runLogic()
     }
-
+/**
+ * Fonction lancer une fois lors du run(), qui relance tout les 20ms la logique du serveur.
+ */
     async runLogic(){
+        this.runStatut = true
         while(this.runStatut == true){
             let startWork = Date.now()
-            let eachTics = 1000/this.physic_tic
+            let eachTics = 1000/physicTicAmount
             this.packageManager.sendPackages(this.allPlayers)
             let endWork = Date.now() - startWork
             //Debug.debug("Coucou les mecs ! " + Date.now())
+            console.log(eachTics, " - ", endWork)
             await new Promise(resolve => setTimeout(resolve, 1000/eachTics-endWork));
         }
     }

@@ -1,8 +1,11 @@
 const { NotFoundError, BadRequestError } = require("../../ErrorSystem/Errors")
 const { OkSuccess } = require("../../ErrorSystem/Success")
 const Debug = require("../../utils/debug")
-const basicDataToSend = {"Players":[], "version": 0, "Data": []}
 
+/**
+ * Système qui s'occupe de gérer les données à envoyer aux différents utilisateurs. C'est lui qui s'occupe de maintenir les utilisateurs à jour
+ * Et de sauvegarder les différentes versions de paquets pour savoir quoi en faire.
+ */
 class PackageManager{
     constructor(){
         this.clients = []

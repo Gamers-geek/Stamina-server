@@ -13,8 +13,19 @@ const PLAYER_STATUS = Object.freeze({
 	CROUCHING: 7
 })
 
-
+/**
+ * Joueur in game, elle s'occupe de gérer et de valider les différentes actions du joueur.
+ */
 class Players {
+    /**
+     * @param {THREE.Vector3} position 
+     * @param {radiant} rotation 
+     * @param {String} username 
+     * @param {Number} tag 
+     * @param {Number} id 
+     * @param {WebSocket.client} client 
+     * @param {Number} version 
+     */
     constructor(position, rotation, username, tag, id, client, version){
         this.position = new THREE.Vector3(position.x, position.y, position.z)
         this.rotation = rotation,

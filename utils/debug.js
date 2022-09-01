@@ -1,6 +1,9 @@
 const { debugEnabled} = require("../config.js");
 const colors = require("colors");
 
+/**
+ * Classe qui gère les messages dans la console. Entièrement en static, car pas besoin de l'instancier pour l'utiliser
+ */
 class Debug{
 /**
  * Permet d'afficher un message aidant au débugage lorsque celui-ci est activé.

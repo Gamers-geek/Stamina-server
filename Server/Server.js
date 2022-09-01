@@ -8,7 +8,10 @@ const ServerInstance = require("./ServerInstance.js");
 let instances = []
 var amountInstance = 0
 
- class Server {
+/**
+ * Classe qui gère l'instanciation de ServerInstance sur différent port, pour éviter de surcharger certains serveurs. Plus tard elle pourra s'occuper de le faire mais sur d'autres machines.
+ */
+class Server {
 
 	static run(){
 		try{
