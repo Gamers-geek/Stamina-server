@@ -11,6 +11,8 @@ const pool = mariadb.createPool({
     database:process.env.DBDATABASE
 })
 
+///!\ REFAIRE LES BASES DE DONNÉES POUR COLLER AU SYSTEME DE GESTION DE PAQUETS ET À CE QUE LES SERVEURS ONT BESOIN
+
 /**
  * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.
  */
@@ -48,7 +50,21 @@ class DataBase{
         } finally {
         if(conn) conn.release();
         }
-    }    
+    }
+    //Refaire la base de donnée du serveur, pour prendre en compte ttes les versions possibles
+    //Ou alors faire une table à côté qui sauvegarde les versions selon le nom du serveur, c'est selon
+    static async saveVersion(serverName, content, version){
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const res = await conn.query("INSERT INTO `servers_new()`")
+        } catch {
+            return new BadRequestError("Impossible de créer une nouvelle version")
+        } finally {
+            if(conn) conn.release();
+        }
+
+    }
 }
 
 module.exports = DataBase

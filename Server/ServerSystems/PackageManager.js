@@ -1,5 +1,6 @@
 const { NotFoundError, BadRequestError } = require("../../ErrorSystem/Errors")
 const { OkSuccess } = require("../../ErrorSystem/Success")
+const Players = require("../../Player/Player")
 const Debug = require("../../utils/debug")
 
 /**
@@ -8,7 +9,6 @@ const Debug = require("../../utils/debug")
  */
 class PackageManager{
     constructor(){
-        this.clients = []
         this.version = 0
         this.actualVersion = []
         this.allOldVersion = []
@@ -70,16 +70,13 @@ class PackageManager{
             return new BadRequestError("Impossible de créer une nouvelle version")
         }
     }
-
-    sendMissingPackets(amountOfMissingVersions, player){
-        amountOfVersions = this.oldVersionsOrder.length()
-        missingsPackets = []
-        for(let i = amountOfVersions - amountOfMissingVersions; i < amountOfVersions; i++){
-            missingsPackets.push(this.allOldVersion[i])
-        }
-        player.client.send(missingsPackets)
-        player.version = this.version
-
+/**
+ * 
+ * @param {Array} amountOfMissingVersions 
+ * @param {Players.name} player 
+ */
+    sendMissingPackets(allMissingVersions, player){
+        
     }
 
 }
