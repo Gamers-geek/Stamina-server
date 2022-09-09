@@ -10,7 +10,9 @@ export default class Debug{
  * @param {String} message
  * @return {void} DebugMessage
  */
-	static debug(message:string): void {
+	static debug(message:any): void {
+		if(typeof message.toString == "function") message = message.toString()
+
 		if(Configuration.config.debugEnabled == true) {
 			return console.log("[DEBUG] " + message)
 		} else {
