@@ -1,3 +1,7 @@
+#JS transpiled files (with exceptions for files start with "_")
+*.js
+!_*.js
+
 # Logs
 logs
 *.log

@@ -1,11 +1,11 @@
-const mariadb = require("mariadb");
-const { BadRequestError } = require("../ErrorSystem/Errors");
-const { OkSuccess } = require("../ErrorSystem/Success");
-const Debug = require("../utils/debug")
+import mariadb from "mariadb";
+import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
+import {SuccessSystem} from "../ErrorsAndSuccess/Success";
+import Debug from "../utils/debug";
 
 const pool = mariadb.createPool({
     host:process.env.DBHOST,
-    port:process.env.DBPORT,
+    port:Number(process.env.DBPORT),
     user:process.env.DBUSER,
     password:process.env.DBPASSWORD,
     database:process.env.DBDATABASE
@@ -16,16 +16,16 @@ const pool = mariadb.createPool({
 /**
  * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.
  */
-class DataBase{
+export class DataBase{
     /**
      * @param {ServerInstance} server 
      */
-    static async saveNewServer(server){
+    static async saveNewServer(server:{serverName:String, port:Number, protocol:String, amountPlayer:Number, runStatut:Boolean, allPlayers:Object, physicTic:Number, id:Number}): Promise<void>{
         let conn;
         try {
             conn = await pool.getConnection();
-            const res = await conn.query("INSERT INTO `servers_new`(`serverName`, `port`, `protocol`, `amountPlayer`, `sender`, `runStatut`, `allPlayers`, `physic_tic`, `id`) VALUES (?,?,?,?,?,?,?,?,?)",
-            [server.serverName, server.port, server.protocol, server.amountPlayer, server.sender, server.runStatut, server.allPlayers, server.physicTic, server.id])
+            const res = await conn.query("INSERT INTO `servers_new`(`serverName`, `port`, `protocol`, `amountPlayer`, `runStatut`, `allPlayers`, `physic_tic`, `id`) VALUES (?,?,?,?,?,?,?,?,?)",
+            [server.serverName, server.port, server.protocol, server.amountPlayer, server.runStatut, server.allPlayers, server.physicTic, server.id])
             console.log(res)   
         }/*catch{
             Debug.debug(new BadRequestError())
@@ -34,11 +34,11 @@ class DataBase{
         }
         //console.log("HSKDGFHKSHBGMKHGIMKSHNGMLSZJKh")
     }
-    static async deleteServer(serverName){
+    static async deleteServer(serverName:string){
 
     }
 
-    static async getAllPackets(serverName){
+    static async getAllPackets(serverName:string){
         let conn;
         try {
             conn = await pool.getConnection();
@@ -46,24 +46,23 @@ class DataBase{
             console.log(res)
             return res
         } catch {
-            return new BadRequestError("Impossible d'avoir les informations de sender")
+            return new ErrorSystem.BadRequestError("Impossible d'avoir les informations de sender")
         } finally {
         if(conn) conn.release();
         }
     }
     //Refaire la base de donnée du serveur, pour prendre en compte ttes les versions possibles
     //Ou alors faire une table à côté qui sauvegarde les versions selon le nom du serveur, c'est selon
-    static async saveVersion(serverName, content, version){
+    static async saveVersion(serverName:string, content:string, version:string){
         let conn;
         try {
             conn = await pool.getConnection();
             const res = await conn.query("INSERT INTO `servers_new()`")
         } catch {
-            return new BadRequestError("Impossible de créer une nouvelle version")
+            return new ErrorSystem.BadRequestError("Impossible de créer une nouvelle version")
         } finally {
             if(conn) conn.release();
         }
-
     }
 }
 
