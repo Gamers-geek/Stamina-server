@@ -2,9 +2,11 @@
   "name": "stamina-server-dev",
   "version": "Prototype V2 TypeScript",
   "description": "Version de développement du serveur",
-  "main": "index.js",
+  "main": "/build/index.js",
   "scripts": {
-    "start": "node ./build/index.js"
+    "start": "node .",
+    "build": "tsc",
+    "dev": "tsc && node ."
   },
   "keywords": [
     "game"
@@ -21,6 +23,7 @@
     "ws": "^8.8.1"
   },
   "devDependencies": {
+    "@types/node": "^18.7.16",
     "@types/three": "^0.144.0",
     "@types/ws": "^8.5.3"
   }

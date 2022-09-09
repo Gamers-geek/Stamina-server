@@ -3,74 +3,92 @@ import { SuccessSystem } from "../../ErrorsAndSuccess/Success"
 import NotFoundError = ErrorSystem.NotFoundError
 import BadRequestError = ErrorSystem.BadRequestError
 import OkSuccess = SuccessSystem.OkSuccess
-import {Players} from "../../Player/Player"
+import { Players } from "../../Player/Player"
 import Debug from "../../utils/debug"
 import { Vector3 } from "three"
+
+interface typeDataToSend {
+    Players: Array<smallPlayer>,
+    version: number,
+    Data: Array<data>,
+}
+
+type dataEvent = ""
+
+interface data {
+    type:  dataEvent,
+    player: smallPlayer
+}
+
+interface smallPlayer {
+    position: Vector3
+    , rotation: number
+}
 
 /**
  * Système qui s'occupe de gérer les données à envoyer aux différents utilisateurs. C'est lui qui s'occupe de maintenir les utilisateurs à jour
  * Et de sauvegarder les différentes versions de paquets pour savoir quoi en faire.
  */
-export namespace PacketSystem{
-    export class PackageManager{
+namespace PacketSystem {
+    export class PackageManager {
         version: number
-        actualVersion: never[]
-        allOldVersion: never[]
-        oldVersionsOrder: never[]
+        actualVersion: Array<any>
+        allOldVersion: Array<any>
+        oldVersionsOrder: Array<any>
         players: any
-        constructor(){
+        constructor() {
             this.version = 0
             this.actualVersion = []
             this.allOldVersion = []
             this.oldVersionsOrder = []
         }
-    /**
-     * 
-     * @param {Array} allPlayers 
-     */
-        sendPackages(allPlayers:Array<Players>): void{
+        /**
+         * 
+         * @param {Array} allPlayers 
+         */
+        sendPackages(allPlayers: Array<Players>): void {
             //console.log(allPlayers)
-            let dataToSend = {"Players":[], "version":this.version, "Data":[]}
+            let dataToSend:typeDataToSend = { Players: [], version: this.version, Data: [] }
             /*if(data){
                 dataToSend.Data = data
             }*/
             allPlayers.forEach((player, index) => {
                 let somethingToSend = dataToSend.Players.splice(index)
-                dataToSend.Players.push({position: player.position, rotation: player.rotation})
-                player.client.send(Buffer.from(JSON.stringify(somethingToSend),"utf-8"))
+                dataToSend.Players.push({ position: player.position, rotation: player.rotation })
+                player.client.send(Buffer.from(JSON.stringify(somethingToSend), "utf-8"))
             })
             Debug.debug(dataToSend)
-            dataToSend = {"Players":[], "version":this.version, "Data":[]}
+            dataToSend = { "Players": [], "version": this.version, "Data": [] }
         }
 
-        addClient(clientToAdd){
+        addClient(clientToAdd: any) {
             console.log("YO !")
-            try{
+            try {
                 this.players.push(clientToAdd)
                 this.allOldVersion.push(this.actualVersion)
                 this.oldVersionsOrder.push(this.version)
-                this.version ++
+                this.version++
                 return new OkSuccess(clientToAdd, "Le joueur a été rajouté avec succès")
             } catch {
                 return new BadRequestError("Impossible de rajouter un joueur")
             }
         }
 
-        removeClient(clientToRemove){
-            try{
-                let remove = this.players.find(player => player == clientToRemove)
+        removeClient(clientToRemove: any) {
+            try {
+                let remove = this.players.find((player: any) => player == clientToRemove)
                 this.players.splice(remove)
                 this.allOldVersion.push(this.actualVersion)
                 this.oldVersionsOrder.push(this.version)
-                this.version ++
+                this.version++
                 return new OkSuccess(clientToRemove, "Le joueur a été retiré avec succès")
             } catch {
                 return new NotFoundError("Le joueur que vous essayez de retirer n'existe pas")
             }
         }
 
-        createNewVersion(){
-            try{
+        createNewVersion() {
+            try {
                 this.allOldVersion.push(this.actualVersion)
                 this.oldVersionsOrder.push(this.version)
                 this.version++
@@ -79,16 +97,16 @@ export namespace PacketSystem{
                 return new BadRequestError("Impossible de créer une nouvelle version")
             }
         }
-    /**
-     * 
-     * @param {Array} amountOfMissingVersions 
-     * @param {Players.name} player 
-     */
-        sendMissingPackets(allMissingVersions, player){
-            
+        /**
+         * 
+         * @param {Array} amountOfMissingVersions 
+         * @param {Players.name} player 
+         */
+        sendMissingPackets(allMissingVersions: any, player: any) {
+
         }
 
     }
 }
 
-module.exports = PackageManager
+export default PacketSystem
