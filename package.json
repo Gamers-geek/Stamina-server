@@ -2,7 +2,7 @@
   "name": "stamina-server-dev",
   "version": "Prototype V2 TypeScript",
   "description": "Version de développement du serveur",
-  "main": "/build/index.js",
+  "main": "./build/index.js",
   "scripts": {
     "start": "node .",
     "build": "tsc",
