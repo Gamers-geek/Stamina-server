@@ -16,7 +16,7 @@ const pool = mariadb.createPool({
 /**
  * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.
  */
-export class DataBase{
+export default class DataBase{
     /**
      * @param {ServerInstance} server 
      */
@@ -65,5 +65,3 @@ export class DataBase{
         }
     }
 }
-
-module.exports = DataBase

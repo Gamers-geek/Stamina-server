@@ -36,7 +36,7 @@ interface PlayerManage{
     }
 }
 
-export class Players {
+export class Player {
     position:Vector3;
     rotation:number;
     username:String;

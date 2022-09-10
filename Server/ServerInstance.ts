@@ -1,12 +1,14 @@
-const { WebSocket } = require("ws");
-const { maxPlayer, physicTicAmount } = require("../config.js");
-const { UnauthorizedError } = require("../ErrorSystem/Errors.js");
-const { OkSuccess } = require("../ErrorSystem/Success.js");
-const Players = require("../Player/Player.js");
-const Debug = require("../utils/debug.js");
-const PackageManager = require("./ServerSystems/PackageManager.js");
+import { WebSocket } from "ws";
+import { Configuration } from "../config.js";
+import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
+import UnauthorizedError = ErrorSystem.UnauthorizedError
+import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import OkSuccess = SuccessSystem.OkSuccess
+import {Player} from "../Player/Player.js";
+import Debug from "../utils/debug.js";
+import PacketSystem from "./ServerSystems/PackageManager.js";
 
-class ServerInstance{
+export default class ServerInstance{
     /**
      * 
      * @param {String} serverName 
@@ -14,27 +16,40 @@ class ServerInstance{
      * @param {String} protocol 
      * @param {Number} amountPlayer 
      */
-    constructor(serverName, port=null, protocol=null, amountPlayer=null){
+    serverName:string
+    port:number
+    protocol:string
+    amountPlayer:number
+    players:number
+    packageManager: PacketSystem.PackageManager
+    runStatut:boolean
+    allPlayers:any[]
+    id:number
+    physicTic:number
+    constructor(serverName:string, port?:number, protocol?:string, amountPlayer?:number){
         this.serverName = serverName
+        if(port){
         this.port = port
-        this.protocol = protocol
+        } else this.port = Configuration.config.port
+        if(protocol) this.protocol = protocol
+        else this.protocol = "lws-mirror-protocol"
         if(amountPlayer){
             this.amountPlayer = amountPlayer
         } else {
-            this.amountPlayer = maxPlayer
+            this.amountPlayer = Configuration.config.maxPlayer
         }
         this.players = 0
-        this.packageManager = new PackageManager()
+        this.packageManager = new PacketSystem.PackageManager()
         this.runStatut = true
         this.allPlayers = []
         this.id = Math.random() * 50
-        this.physicTic = physicTicAmount
+        this.physicTic = Configuration.config.physicTicAmount
     }
 /**
  * Démarre le protocole WebSocket et trie pour l'instant les messages entrant. Plus tard se sera délégué à l'EventHandler
  */
     run(){
-        const server = new WebSocket.Server({ port: this.port, proto: this.protocol });
+        const server = new WebSocket.Server({ port: this.port });
 
 		Debug.debug(`Server started on port ${this.port}, with protocol : ${this.protocol}!`);
 
@@ -55,21 +70,21 @@ class ServerInstance{
                     case parsedMessage.status == "connexion":
                         console.log("Un joueur s'est connecté")
                         let version = this.packageManager.version
-                        let something = new Players(parsedMessage.player.position,
+                        let something = new Player(parsedMessage.player.position,
                             parsedMessage.player.rotation,
                             parsedMessage.player.username,
                             parsedMessage.player.tag,
                             parsedMessage.player.id,
-                            client,
-                            version++)
+                            version++,
+                            client
+                            )
                         Debug.debugError("MMMMMMMHH")
                         Debug.debug(something)
                         this.allPlayers.push(something)
                         this.packageManager.addClient(something)
-                        something.getAllPackets()
                         break;
                     case parsedMessage.status == "deconnexion":
-                        this.packageManager.removeClient(parsedMessage.data.account.id, client)
+                        this.packageManager.removeClient(parsedMessage.data.account.id)
                         console.log("Un joueur s'est déconnecté")
                         break;
                     default:
@@ -77,7 +92,8 @@ class ServerInstance{
                 }
             })
                 if (this.players > this.amountPlayer) {
-				client.send(Buffer.from(new UnauthorizedError("Impossible de se connecter pour l'instant"), "utf8"))
+                    let hehe:any = new UnauthorizedError("Impossible de se connecter pour l'instant")
+				client.send(Buffer.from(hehe, "utf8"))
 				client.close();
 			} else {
                 //Debug.debug(new OkSuccess(client, "Nouveau client connecté !"))
@@ -99,7 +115,7 @@ class ServerInstance{
         this.runStatut = true
         while(this.runStatut == true){
             let startWork = Date.now()
-            let eachTics = 1000/physicTicAmount
+            let eachTics = 1000/this.physicTic
             this.packageManager.sendPackages(this.allPlayers)
             let endWork = Date.now() - startWork
             //Debug.debug("Coucou les mecs ! " + Date.now())
@@ -109,5 +125,3 @@ class ServerInstance{
     }
 
 }
-
-module.exports = ServerInstance

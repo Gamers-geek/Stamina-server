@@ -3,7 +3,7 @@ import { SuccessSystem } from "../../ErrorsAndSuccess/Success"
 import NotFoundError = ErrorSystem.NotFoundError
 import BadRequestError = ErrorSystem.BadRequestError
 import OkSuccess = SuccessSystem.OkSuccess
-import { Players } from "../../Player/Player"
+import { Player } from "../../Player/Player"
 import Debug from "../../utils/debug"
 import { Vector3 } from "three"
 
@@ -17,12 +17,12 @@ type dataEvent = ""
 
 interface data {
     type:  dataEvent,
-    player: smallPlayer
+    player: number
 }
 
 interface smallPlayer {
-    position: Vector3
-    , rotation: number
+    position: Vector3,
+    rotation: number
 }
 
 /**
@@ -41,12 +41,12 @@ namespace PacketSystem {
             this.actualVersion = []
             this.allOldVersion = []
             this.oldVersionsOrder = []
-        }
+        } 
         /**
          * 
          * @param {Array} allPlayers 
          */
-        sendPackages(allPlayers: Array<Players>): void {
+        sendPackages(allPlayers: Array<Player>): void {
             //console.log(allPlayers)
             let dataToSend:typeDataToSend = { Players: [], version: this.version, Data: [] }
             /*if(data){
@@ -98,9 +98,8 @@ namespace PacketSystem {
             }
         }
         /**
-         * 
-         * @param {Array} amountOfMissingVersions 
-         * @param {Players.name} player 
+         * @param {Array} allMissingVersions
+         * @param {Players.name} player
          */
         sendMissingPackets(allMissingVersions: any, player: any) {
 
