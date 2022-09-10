@@ -1,5 +1,5 @@
-namespace HTTPServer{
-    export class Server{
+namespace HTTPServer {
+    export class Server {
 
     }
 }

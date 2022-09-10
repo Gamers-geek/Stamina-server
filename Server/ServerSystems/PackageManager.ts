@@ -4,7 +4,7 @@ import NotFoundError = ErrorSystem.NotFoundError
 import BadRequestError = ErrorSystem.BadRequestError
 import OkSuccess = SuccessSystem.OkSuccess
 import { Player } from "../../Player/Player"
-import Debug from "../../utils/debug"
+import Debug from "../../utils/logger"
 import { Vector3 } from "three"
 
 interface typeDataToSend {
@@ -16,7 +16,7 @@ interface typeDataToSend {
 type dataEvent = ""
 
 interface data {
-    type:  dataEvent,
+    type: dataEvent,
     player: number
 }
 
@@ -41,14 +41,14 @@ namespace PacketSystem {
             this.actualVersion = []
             this.allOldVersion = []
             this.oldVersionsOrder = []
-        } 
+        }
         /**
          * 
          * @param {Array} allPlayers 
          */
         sendPackages(allPlayers: Array<Player>): void {
             //console.log(allPlayers)
-            let dataToSend:typeDataToSend = { Players: [], version: this.version, Data: [] }
+            let dataToSend: typeDataToSend = { Players: [], version: this.version, Data: [] }
             /*if(data){
                 dataToSend.Data = data
             }*/
@@ -57,7 +57,7 @@ namespace PacketSystem {
                 dataToSend.Players.push({ position: player.position, rotation: player.rotation })
                 player.client.send(Buffer.from(JSON.stringify(somethingToSend), "utf-8"))
             })
-            Debug.debug(dataToSend)
+            //Debug.debug(dataToSend)
             dataToSend = { "Players": [], "version": this.version, "Data": [] }
         }
 

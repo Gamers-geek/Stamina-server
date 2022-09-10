@@ -1,14 +1,14 @@
 import mariadb from "mariadb";
 import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
-import {SuccessSystem} from "../ErrorsAndSuccess/Success";
-import Debug from "../utils/debug";
+import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import Debug from "../utils/logger";
 
 const pool = mariadb.createPool({
-    host:process.env.DBHOST,
-    port:Number(process.env.DBPORT),
-    user:process.env.DBUSER,
-    password:process.env.DBPASSWORD,
-    database:process.env.DBDATABASE
+    host: process.env.DBHOST,
+    port: Number(process.env.DBPORT),
+    user: process.env.DBUSER,
+    password: process.env.DBPASSWORD,
+    database: process.env.DBDATABASE
 })
 
 ///!\ REFAIRE LES BASES DE DONNÉES POUR COLLER AU SYSTEME DE GESTION DE PAQUETS ET À CE QUE LES SERVEURS ONT BESOIN
@@ -16,29 +16,29 @@ const pool = mariadb.createPool({
 /**
  * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.
  */
-export default class DataBase{
+export default class DataBase {
     /**
      * @param {ServerInstance} server 
      */
-    static async saveNewServer(server:{serverName:String, port:Number, protocol:String, amountPlayer:Number, runStatut:Boolean, allPlayers:Object, physicTic:Number, id:Number}): Promise<void>{
+    static async saveNewServer(server: { serverName: String, port: Number, protocol: String, amountPlayer: Number, runStatut: Boolean, allPlayers: Object, physicTic: Number, id: Number }): Promise<void> {
         let conn;
         try {
             conn = await pool.getConnection();
             const res = await conn.query("INSERT INTO `servers_new`(`serverName`, `port`, `protocol`, `amountPlayer`, `runStatut`, `allPlayers`, `physic_tic`, `id`) VALUES (?,?,?,?,?,?,?,?,?)",
-            [server.serverName, server.port, server.protocol, server.amountPlayer, server.runStatut, server.allPlayers, server.physicTic, server.id])
-            console.log(res)   
+                [server.serverName, server.port, server.protocol, server.amountPlayer, server.runStatut, server.allPlayers, server.physicTic, server.id])
+            console.log(res)
         }/*catch{
             Debug.debug(new BadRequestError())
-        }*/finally{
-            if(conn) conn.release();
+        }*/finally {
+            if (conn) conn.release();
         }
         //console.log("HSKDGFHKSHBGMKHGIMKSHNGMLSZJKh")
     }
-    static async deleteServer(serverName:string){
+    static async deleteServer(serverName: string) {
 
     }
 
-    static async getAllPackets(serverName:string){
+    static async getAllPackets(serverName: string) {
         let conn;
         try {
             conn = await pool.getConnection();
@@ -48,12 +48,12 @@ export default class DataBase{
         } catch {
             return new ErrorSystem.BadRequestError("Impossible d'avoir les informations de sender")
         } finally {
-        if(conn) conn.release();
+            if (conn) conn.release();
         }
     }
     //Refaire la base de donnée du serveur, pour prendre en compte ttes les versions possibles
     //Ou alors faire une table à côté qui sauvegarde les versions selon le nom du serveur, c'est selon
-    static async saveVersion(serverName:string, content:string, version:string){
+    static async saveVersion(serverName: string, content: string, version: string) {
         let conn;
         try {
             conn = await pool.getConnection();
@@ -61,7 +61,7 @@ export default class DataBase{
         } catch {
             return new ErrorSystem.BadRequestError("Impossible de créer une nouvelle version")
         } finally {
-            if(conn) conn.release();
+            if (conn) conn.release();
         }
     }
 }

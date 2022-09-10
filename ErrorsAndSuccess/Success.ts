@@ -18,7 +18,7 @@ export namespace SuccessSystem {
          * @param {any} successContent
          * @param {String} succesDetails
          */
-        constructor(succesType:string, successCode:Number, successContent?:any, succesDetails?:any){
+        constructor(succesType: string, successCode: Number, successContent?: any, succesDetails?: any) {
             this.succes_type = succesType
             this.code = successCode
             this.content = successContent
@@ -31,7 +31,7 @@ export namespace SuccessSystem {
          * @param {any} content 
          * @param {String} details 
          */
-        constructor(content?:any, details?:string){
+        constructor(content?: any, details?: string) {
             super("OK", 200, content, details)
         }
     }
@@ -41,7 +41,7 @@ export namespace SuccessSystem {
          * @param {any} content 
          * @param {String} details 
          */
-        constructor(content?:any,details?:string){
+        constructor(content?: any, details?: string) {
             super("Creation", 201, content, details)
         }
     }
@@ -51,7 +51,7 @@ export namespace SuccessSystem {
          * @param {any} content 
          * @param {String} details 
          */
-        constructor(content?:any, details?:string){
+        constructor(content?: any, details?: string) {
             super("Accepted", 202, content, details)
         }
     }
