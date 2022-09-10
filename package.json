@@ -4,7 +4,7 @@
   "description": "Version de développement du serveur",
   "main": "./build/index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node ./build/index.js",
     "build": "tsc",
     "dev": "tsc && node ."
   },

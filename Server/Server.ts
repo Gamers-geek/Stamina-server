@@ -1,40 +1,40 @@
-const { port } = require("../config.js");
-const DataBase = require("../Database/DataBase.js");
-const { NotFoundError, BadRequestError, ForbidenError } = require("../ErrorSystem/Errors.js");
-const { OkSuccess } = require("../ErrorSystem/Success.js");
-const Debug = require("../utils/debug.js");
-const HTTPServer = require("./HTTPServer.js");
-const ServerInstance = require("./ServerInstance.js");
-let instances = []
+import { Configuration } from "../config.js";
+import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
+import NotFoundError = ErrorSystem.NotFoundError
+import BadRequestError = ErrorSystem.BadRequestError
+import ForbidenError = ErrorSystem.ForbidenError
+import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import OkSuccess = SuccessSystem.OkSuccess
+import Debug from "../utils/debug.js";
+import HTTPServer from "./HTTPServer.js";
+import ServerInstance from "./ServerInstance";
+let instances:any[] = []
 var amountInstance = 0
 
 /**
  * Classe qui gère l'instanciation de ServerInstance sur différent port, pour éviter de surcharger certains serveurs. Plus tard elle pourra s'occuper de le faire mais sur d'autres machines.
  */
-class Server {
+export default class Server {
 
 	static run(){
 		try{
 			let something = []
-			let serverInstance = new ServerInstance("firstServer", port, "lws-mirror-protocol")
-			let HTTPServerInstance = new HTTPServer()
+			let serverInstance = new ServerInstance("firstServer", Configuration.config.port, "lws-mirror-protocol")
+			let HTTPServerInstance = new HTTPServer.Server()
 			serverInstance.run()
 			something.push(serverInstance)
 			something.push(HTTPServerInstance)
 			instances.push(something)
 			amountInstance = 1
-			HTTPServerInstance.app.get("*", function(req, res){
-				res.send("Hello World !")
-			})
 			return new OkSuccess(serverInstance, "Instanciation du premier serveur réussie")
 		} catch {
-			return new BadRequestError("Impossible de générer le premier serveur au port : " + port)
+			return new BadRequestError("Impossible de générer le premier serveur au port : " + Configuration.config.port)
 		}
 	}
 
-    static createServerInstance(serverName, protocol, serverPort){
+    static createServerInstance(serverName:string, protocol:string, serverPort:number){
 		try {
-			let serverInstance = new ServerInstance(serverName, protocol, serverPort)
+			let serverInstance = new ServerInstance(serverName, serverPort, protocol)
 			serverInstance.run()
 			instances.push(serverInstance)
 			amountInstance += 1
@@ -44,7 +44,7 @@ class Server {
 		}
     }
 
-	static deleteServerInstance(serverName){
+	static deleteServerInstance(serverName:string){
 		try {
 			let serverToDelete = instances.indexOf(instances.find(server => server.serverName == serverName))
 			instances.splice(serverToDelete)
@@ -61,6 +61,4 @@ class Server {
 			return new ForbidenError("Impossible de répondre à la requête")
 		}
 	}
-}	
-
-module.exports = Server
+}
