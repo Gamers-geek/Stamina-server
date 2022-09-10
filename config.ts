@@ -5,5 +5,6 @@ export namespace Configuration {
 		static maxPlayer: number = 20
 		static version: string = "Prototype V2 TypeScript"
 		static physicTicAmount: number = 50
+		static outputLog: string|null = "./log.txt"
 	}
 }

@@ -2,8 +2,8 @@
 
 
 namespace PacketSystem {
-    export class EventHandling{
-        constructor(){
+    export class EventHandling {
+        constructor() {
 
         }
     }

@@ -5,10 +5,10 @@ import BadRequestError = ErrorSystem.BadRequestError
 import ForbidenError = ErrorSystem.ForbidenError
 import { SuccessSystem } from "../ErrorsAndSuccess/Success";
 import OkSuccess = SuccessSystem.OkSuccess
-import Debug from "../utils/debug.js";
+import Debug from "../utils/logger.js";
 import HTTPServer from "./HTTPServer.js";
 import ServerInstance from "./ServerInstance";
-let instances:any[] = []
+let instances: any[] = []
 var amountInstance = 0
 
 /**
@@ -16,8 +16,8 @@ var amountInstance = 0
  */
 export default class Server {
 
-	static run(){
-		try{
+	static run() {
+		try {
 			let something = []
 			let serverInstance = new ServerInstance("firstServer", Configuration.config.port, "lws-mirror-protocol")
 			let HTTPServerInstance = new HTTPServer.Server()
@@ -32,7 +32,7 @@ export default class Server {
 		}
 	}
 
-    static createServerInstance(serverName:string, protocol:string, serverPort:number){
+	static createServerInstance(serverName: string, protocol: string, serverPort: number) {
 		try {
 			let serverInstance = new ServerInstance(serverName, serverPort, protocol)
 			serverInstance.run()
@@ -42,22 +42,22 @@ export default class Server {
 		} catch {
 			return new BadRequestError("Impossible d'instancier le serveur : " + serverName + " au port : " + serverPort)
 		}
-    }
+	}
 
-	static deleteServerInstance(serverName:string){
+	static deleteServerInstance(serverName: string) {
 		try {
 			let serverToDelete = instances.indexOf(instances.find(server => server.serverName == serverName))
 			instances.splice(serverToDelete)
 			return new OkSuccess(serverName, "Le serveur a été correctement supprimé")
-		} catch{
+		} catch {
 			return new NotFoundError("L'instance du serveur : \"" + serverName + "\" n'existe pas")
 		}
 	}
 
-	static getAllServerInstances(){
+	static getAllServerInstances() {
 		try {
 			return new OkSuccess(instances, "Toutes les instances de serveur")
-		} catch{
+		} catch {
 			return new ForbidenError("Impossible de répondre à la requête")
 		}
 	}
