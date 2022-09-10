@@ -31,7 +31,7 @@ export default class Logger {
 	static info(message: any): void {
 
 		const date = new Date();
-		const messageDate = `[${date.getSeconds()}:${date.getMinutes()}:${date.getHours()} ${date.getDate()}/${date.getMonth()+1/*sont con on est obligé de rajouter +1*/}/${date.getFullYear()}]`
+		const messageDate = `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDate()}/${date.getMonth()+1/*sont con on est obligé de rajouter +1*/}/${date.getFullYear()}]`
 		this.save(`${messageDate} ${message}`);
 		return console.log(messageDate, message)
 

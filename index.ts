@@ -8,6 +8,4 @@ let ServerRun = Server.run()
 
 //Debug.debug(ServerRun)
 
-let getAllInstance = Server.getAllServerInstances()
-
 //Debug.debug(getAllInstance)

@@ -31,24 +31,18 @@ interface smallPlayer {
  */
 namespace PacketSystem {
     export class PackageManager {
-        version: number
-        actualVersion: Array<any>
-        allOldVersion: Array<any>
-        oldVersionsOrder: Array<any>
-        players: any
-        constructor() {
-            this.version = 0
-            this.actualVersion = []
-            this.allOldVersion = []
-            this.oldVersionsOrder = []
-        }
+        static version: number = 0
+        static actualVersion: Array<any>
+        static allOldVersion: Array<any>
+        static oldVersionsOrder: Array<any>
+        static players: any
         /**
          * 
          * @param {Array} allPlayers 
          */
-        sendPackages(allPlayers: Array<Player>): void {
+        static sendPackages(allPlayers: Array<Player>): void {
             //console.log(allPlayers)
-            let dataToSend: typeDataToSend = { Players: [], version: this.version, Data: [] }
+            let dataToSend: typeDataToSend = { Players: [], version: PackageManager.version, Data: [] }
             /*if(data){
                 dataToSend.Data = data
             }*/
@@ -61,38 +55,38 @@ namespace PacketSystem {
             dataToSend = { "Players": [], "version": this.version, "Data": [] }
         }
 
-        addClient(clientToAdd: any) {
+        static addClient(clientToAdd: any) {
             console.log("YO !")
             try {
-                this.players.push(clientToAdd)
-                this.allOldVersion.push(this.actualVersion)
-                this.oldVersionsOrder.push(this.version)
-                this.version++
+                PackageManager.players.push(clientToAdd)
+                PackageManager.allOldVersion.push(PackageManager.actualVersion)
+                PackageManager.oldVersionsOrder.push(PackageManager.version)
+                PackageManager.version++
                 return new OkSuccess(clientToAdd, "Le joueur a été rajouté avec succès")
             } catch {
                 return new BadRequestError("Impossible de rajouter un joueur")
             }
         }
 
-        removeClient(clientToRemove: any) {
+        static removeClient(clientToRemove: any) {
             try {
-                let remove = this.players.find((player: any) => player == clientToRemove)
-                this.players.splice(remove)
-                this.allOldVersion.push(this.actualVersion)
-                this.oldVersionsOrder.push(this.version)
-                this.version++
+                let remove = PackageManager.players.find((player: any) => player == clientToRemove)
+                PackageManager.players.splice(remove)
+                PackageManager.allOldVersion.push(PackageManager.actualVersion)
+                PackageManager.oldVersionsOrder.push(PackageManager.version)
+                PackageManager.version++
                 return new OkSuccess(clientToRemove, "Le joueur a été retiré avec succès")
             } catch {
                 return new NotFoundError("Le joueur que vous essayez de retirer n'existe pas")
             }
         }
 
-        createNewVersion() {
+        static createNewVersion() {
             try {
-                this.allOldVersion.push(this.actualVersion)
-                this.oldVersionsOrder.push(this.version)
-                this.version++
-                return new OkSuccess(this.version, "Nouvelle version créé avec succès")
+                PackageManager.allOldVersion.push(PackageManager.actualVersion)
+                PackageManager.oldVersionsOrder.push(PackageManager.version)
+                PackageManager.version++
+                return new OkSuccess(PackageManager.version, "Nouvelle version créé avec succès")
             } catch {
                 return new BadRequestError("Impossible de créer une nouvelle version")
             }
@@ -101,7 +95,7 @@ namespace PacketSystem {
          * @param {Array} allMissingVersions
          * @param {Players.name} player
          */
-        sendMissingPackets(allMissingVersions: any, player: any) {
+        static sendMissingPackets(allMissingVersions: any, player: any) {
 
         }
 

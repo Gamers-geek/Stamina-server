@@ -1,64 +1,90 @@
 import { Configuration } from "../config.js";
 import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
-import NotFoundError = ErrorSystem.NotFoundError
-import BadRequestError = ErrorSystem.BadRequestError
-import ForbidenError = ErrorSystem.ForbidenError
+import UnauthorizedError = ErrorSystem.UnauthorizedError
 import { SuccessSystem } from "../ErrorsAndSuccess/Success";
-import OkSuccess = SuccessSystem.OkSuccess
-import Debug from "../utils/logger.js";
-import HTTPServer from "./HTTPServer.js";
-import ServerInstance from "./ServerInstance";
-let instances: any[] = []
-var amountInstance = 0
+import Logger from "../utils/logger.js";
+import { WebSocket } from "ws";
+import { Player } from "../Player/Player.js";
+import PacketSystem from "./ServerSystems/PackageManager.js";
+import PackageManager = PacketSystem.PackageManager
 
 /**
  * Classe qui gère l'instanciation de ServerInstance sur différent port, pour éviter de surcharger certains serveurs. Plus tard elle pourra s'occuper de le faire mais sur d'autres machines.
  */
-export default class Server {
+export default class ServerSystem {
+	static instances:any[] = []
+	static allPlayers:any[] = []
 
-	static run() {
-		try {
-			let something = []
-			let serverInstance = new ServerInstance("firstServer", Configuration.config.port, "lws-mirror-protocol")
-			let HTTPServerInstance = new HTTPServer.Server()
-			serverInstance.run()
-			something.push(serverInstance)
-			something.push(HTTPServerInstance)
-			instances.push(something)
-			amountInstance = 1
-			return new OkSuccess(serverInstance, "Instanciation du premier serveur réussie")
-		} catch {
-			return new BadRequestError("Impossible de générer le premier serveur au port : " + Configuration.config.port)
-		}
-	}
+	static run(){
+	const server = new WebSocket.Server({ port: Configuration.config.port });
 
-	static createServerInstance(serverName: string, protocol: string, serverPort: number) {
-		try {
-			let serverInstance = new ServerInstance(serverName, serverPort, protocol)
-			serverInstance.run()
-			instances.push(serverInstance)
-			amountInstance += 1
-			return new OkSuccess(serverInstance, "Instanciation réussie")
-		} catch {
-			return new BadRequestError("Impossible d'instancier le serveur : " + serverName + " au port : " + serverPort)
-		}
-	}
+	Logger.info(`Server started on port ${Configuration.config.port}, with protocol : ${Configuration.config.protocol}!`);
 
-	static deleteServerInstance(serverName: string) {
-		try {
-			let serverToDelete = instances.indexOf(instances.find(server => server.serverName == serverName))
-			instances.splice(serverToDelete)
-			return new OkSuccess(serverName, "Le serveur a été correctement supprimé")
-		} catch {
-			return new NotFoundError("L'instance du serveur : \"" + serverName + "\" n'existe pas")
-		}
-	}
+        server.on("connection", (client) => {
+            client.on("message", (message) => {
+                let StringMessage = message.toString()
+                let parsedMessage = JSON.parse(StringMessage);
+                Logger.debug("YOOOOO !")
+                console.log(parsedMessage)
+                switch (true) {
+                    case !parsedMessage:
+                        console.log("Invalid message format")
+                        break;
+                    case parsedMessage.status == "client":
+                        console.log("something")
+                        //this.handle_data_for_clients(client, parsedMessage)
+                        break
+                    case parsedMessage.status == "connexion":
+                        console.log("Un joueur s'est connecté")
+                        let version = PackageManager.version
+                        let something = new Player(parsedMessage.player.position,
+                            parsedMessage.player.rotation,
+                            parsedMessage.player.username,
+                            parsedMessage.player.tag,
+                            parsedMessage.player.id,
+                            version++,
+                            client
+                        )
+                        Logger.debugError("MMMMMMMHH")
+                        Logger.debug(something)
+                        ServerSystem.allPlayers.push(something)
+                        PackageManager.addClient(something)
+                        break;
+                    case parsedMessage.status == "deconnexion":
+                        PackageManager.removeClient(parsedMessage.data.account.id)
+                        console.log("Un joueur s'est déconnecté")
+                        break;
+                    default:
+                        console.log("DEFAULT")
+                }
+            })
+            if (ServerSystem.allPlayers.length > Configuration.config.maxPlayer) {
+                let hehe: any = new UnauthorizedError("Impossible de se connecter pour l'instant")
+                client.send(Buffer.from(hehe, "utf8"))
+                client.close();
+            } else {
+                //Debug.debug(new OkSuccess(client, "Nouveau client connecté !"))
+                //Debug.debug(this.packageManager.addClient(new Players({x:0.2, y:0.3, z:58.0}, 1.265548, "Gipson62", 256, 2365, client, this.packageManager, 1)))
+                console.log("Quelqu'un s'est connecté")
+            }
 
-	static getAllServerInstances() {
-		try {
-			return new OkSuccess(instances, "Toutes les instances de serveur")
-		} catch {
-			return new ForbidenError("Impossible de répondre à la requête")
-		}
-	}
+
+            client.on("close", (code, reason) => {
+                console.log("Quelqu'un s'est déconnecté du serveur : " + Configuration.config.serverName)
+            });
+        })
+        ServerSystem.runLogic()
+    }
+
+	static async runLogic() {
+        while (Configuration.config.runServer == true) {
+            let startWork = Date.now()
+            let eachTics = 1000 / Configuration.config.physicTic
+            PackageManager.sendPackages(this.allPlayers)
+            let endWork = Date.now() - startWork
+            //Debug.debug("Coucou les mecs ! " + Date.now())
+            //console.log(eachTics, " - ", endWork)
+            await new Promise(resolve => setTimeout(resolve, 1000 / eachTics - endWork));
+        }
+    }
 }
