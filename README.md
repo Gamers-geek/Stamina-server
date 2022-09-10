@@ -78,23 +78,30 @@ Stamina-server est un projet sous license MIT pour l'instant, permettant de fair
 
 Le fichier de configuration `config.js` se présente de la manière suivante :
 
-```js
-module.exports = {
-	port: 2025,
-	debugEnabled: true,
-	maxPlayer: 0,
-	version: "Prototype V2",
-	physicTicAmount: 50
-};
+```ts
+export namespace Configuration {
+	export class config {
+		static port: number = 2025
+		static debugEnabled: boolean = true
+		static maxPlayer: number = 20
+		static version: string = "Prototype V2 TypeScript"
+		static physicTicAmount: number = 50
+		static outputLog: string|null = "./log.txt"
+	}
+}
 ```
+
+Pour utiliser le système de configuration dans votre module (feature à venir), il faut importer le namespace Configuration : `import Configuration from 'lechemin'` et ensuite l'utiliser comme ça : `Configuration.config.port`
 
 Le serveur utilise par défaut le port 2025. Ce port peut-être modifié à n'importe quel moment en modifiant les valeurs dans le fichier `config.js`.
 
-Vous pouvez activer ou désactiver quand vous voulez le système de débug en changeant la valeur de `debugEnabled`.
+Vous pouvez activer ou désactiver quand vous voulez le système de débug en changeant la valeur de `debugEnabled`. Par défaut il est activé pour que vous puissez recevoir tt votre déboguage dans la console.
 
 Vous pouvez aussi limiter le nombre de personnes qui peuvent se connecter aux serveurs en modifiant la valeur de `maxPlayer`.
 
 `physicTicAmount` est le nombre de fois par seconde que toute la logique du serveur va se lancer. C'est à dire le calcul des IAs, la gestion des ressources, de l'économie et des guildes et l'envoi des données aux joueurs
+
+`outputLog` est l'endroit où vous voulez que la sauvegarde des logs arrive. (feature à venir)
 
 > Une documentation plus complète arrivera plus tard.
 

@@ -1,8 +1,8 @@
 require('dotenv').config({ path: __dirname+'/.env' });
-import Debug from "./utils/logger";
+import Logger from "./utils/logger";
 import Server from "./Server/Server"
 
-Debug.debug("Hello")
+Logger.debug("Hello")
 
 let ServerRun = Server.run()
 
