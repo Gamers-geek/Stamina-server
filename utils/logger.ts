@@ -1,7 +1,7 @@
 import { Configuration } from "../config";
 import colors from "colors";
-import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
-import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import ErrorSystem from "../ErrorsAndSuccess/Errors";
+import SuccessSystem from "../ErrorsAndSuccess/Success";
 import { Player } from "../Player/Player";
 
 
@@ -16,7 +16,7 @@ export default class Logger {
 	 */
 	static debug(message: any): void {
 
-		if (Configuration.config.debugEnabled == true) {
+		if (Configuration.debug.debugEnabled == true) {
 			return console.log("[DEBUG]", message)
 		} else {
 			//return console.log("[NO DEBUG] " + message)

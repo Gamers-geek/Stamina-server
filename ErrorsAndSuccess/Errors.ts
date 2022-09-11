@@ -2,7 +2,7 @@
  * namespace pour le système d'erreur, ça permet de "simplifier" le systeme en le rendant plus accessible
  * Système d'erreur pour définir comment la requête à échouer. (Voir le système de succès)
 */
-export namespace ErrorSystem {
+namespace ErrorSystem {
     /**
      * class Parent pour le système d'erreur, elle prend les paramètres communs à toutes les erreurs
     */
@@ -71,3 +71,5 @@ export namespace ErrorSystem {
         }
     }
 }
+
+export default ErrorSystem

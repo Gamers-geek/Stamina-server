@@ -2,7 +2,7 @@
  * namespace pour le système de succès, ça permet de "simplifier" le systeme en le rendant plus accessible
  * Système de succès pour définir l'état de la réussite de la requête. (Voir le système d'erreur)
 */
-export namespace SuccessSystem {
+namespace SuccessSystem {
 
     /**
      * class Parent pour le système de succès, elle prend les paramètres communs à tout les succès
@@ -56,3 +56,4 @@ export namespace SuccessSystem {
         }
     }
 }
+export default SuccessSystem

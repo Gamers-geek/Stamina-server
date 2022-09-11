@@ -1,6 +1,6 @@
 import mariadb from "mariadb";
-import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
-import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import ErrorSystem from "../ErrorsAndSuccess/Errors";
+import SuccessSystem from "../ErrorsAndSuccess/Success";
 import Debug from "../utils/logger";
 
 const pool = mariadb.createPool({

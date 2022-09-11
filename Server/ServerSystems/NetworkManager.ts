@@ -1,11 +1,7 @@
-import { ErrorSystem } from "../../ErrorsAndSuccess/Errors"
-import { SuccessSystem } from "../../ErrorsAndSuccess/Success"
-import NotFoundError = ErrorSystem.NotFoundError
-import BadRequestError = ErrorSystem.BadRequestError
-import OkSuccess = SuccessSystem.OkSuccess
-import { Player } from "../../Player/Player"
-import Debug from "../../utils/logger"
-import { Vector3 } from "three"
+import { Vector3 } from 'three'
+import { Player } from '../../Player/Player'
+import ErrorSystem from "../../ErrorsAndSuccess/Errors"
+import SuccessSystem from "../../ErrorsAndSuccess/Success"
 
 interface typeDataToSend {
     Players: Array<smallPlayer>,
@@ -25,11 +21,7 @@ interface smallPlayer {
     rotation: number
 }
 
-/**
- * Système qui s'occupe de gérer les données à envoyer aux différents utilisateurs. C'est lui qui s'occupe de maintenir les utilisateurs à jour
- * Et de sauvegarder les différentes versions de paquets pour savoir quoi en faire.
- */
-namespace PacketSystem {
+namespace NetworkSystem{
     export class PackageManager {
         static version: number = 0
         static actualVersion: Array<any>
@@ -62,9 +54,9 @@ namespace PacketSystem {
                 PackageManager.allOldVersion.push(PackageManager.actualVersion)
                 PackageManager.oldVersionsOrder.push(PackageManager.version)
                 PackageManager.version++
-                return new OkSuccess(clientToAdd, "Le joueur a été rajouté avec succès")
+                return new SuccessSystem.OkSuccess(clientToAdd, "Le joueur a été rajouté avec succès")
             } catch {
-                return new BadRequestError("Impossible de rajouter un joueur")
+                return new ErrorSystem.BadRequestError("Impossible de rajouter un joueur")
             }
         }
 
@@ -75,9 +67,9 @@ namespace PacketSystem {
                 PackageManager.allOldVersion.push(PackageManager.actualVersion)
                 PackageManager.oldVersionsOrder.push(PackageManager.version)
                 PackageManager.version++
-                return new OkSuccess(clientToRemove, "Le joueur a été retiré avec succès")
+                return new SuccessSystem.OkSuccess(clientToRemove, "Le joueur a été retiré avec succès")
             } catch {
-                return new NotFoundError("Le joueur que vous essayez de retirer n'existe pas")
+                return new ErrorSystem.NotFoundError("Le joueur que vous essayez de retirer n'existe pas")
             }
         }
 
@@ -86,9 +78,9 @@ namespace PacketSystem {
                 PackageManager.allOldVersion.push(PackageManager.actualVersion)
                 PackageManager.oldVersionsOrder.push(PackageManager.version)
                 PackageManager.version++
-                return new OkSuccess(PackageManager.version, "Nouvelle version créé avec succès")
+                return new SuccessSystem.OkSuccess(PackageManager.version, "Nouvelle version créé avec succès")
             } catch {
-                return new BadRequestError("Impossible de créer une nouvelle version")
+                return new ErrorSystem.BadRequestError("Impossible de créer une nouvelle version")
             }
         }
         /**
@@ -100,6 +92,10 @@ namespace PacketSystem {
         }
 
     }
+
+    export class EventHandler {
+
+    }
 }
 
-export default PacketSystem
+export default NetworkSystem

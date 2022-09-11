@@ -1,6 +1,6 @@
-import { ErrorSystem } from "../ErrorsAndSuccess/Errors";
+import ErrorSystem from "../ErrorsAndSuccess/Errors";
 import BadRequestError = ErrorSystem.BadRequestError
-import { SuccessSystem } from "../ErrorsAndSuccess/Success";
+import SuccessSystem from "../ErrorsAndSuccess/Success";
 import OkSuccess = SuccessSystem.OkSuccess
 import { Vector3 } from "three";
 import DataBase from "../Database/Database";

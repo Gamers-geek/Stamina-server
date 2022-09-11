@@ -76,36 +76,38 @@ Stamina-server est un projet sous license MIT pour l'instant, permettant de fair
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Le fichier de configuration `config.js` se présente de la manière suivante :
+Le fichier de configuration `config.ts` se présente de la manière suivante :
 
 ```ts
 export namespace Configuration {
-	export class config {
+	export class server {
 		static port: number = 2025
-		static debugEnabled: boolean = true
 		static maxPlayer: number = 20
 		static version: string = "Prototype V2 TypeScript"
 		static physicTic: number = 50
 		static protocol:string = "lws-mirror-protocol"
-		static outputLog: string|null = "./log.txt"
 		static serverName:string = "Premier Serveur"
 		static runServer:boolean = true
 		static ID:number = Date.now()
+
+	}
+	export class module {
+		static useModule:boolean = true
+		static moduleOrder:Array<string> = []
+	}
+	export class debug {
+		static outputLog: string|null = "./log.txt"
+		static debugEnabled: boolean = true	
+	}
+	export class network {
+		
 	}
 }
 ```
 
-Pour utiliser le système de configuration dans votre module (feature à venir), il faut importer le namespace Configuration : `import Configuration from 'lechemin'` et ensuite l'utiliser comme ça : `Configuration.config.port`
+Pour utiliser le système de configuration dans votre module (feature à venir), il faut importer le namespace Configuration : `import Configuration from 'lechemin'` et ensuite appeler le type de configuration que vous voulez (`module`, `debug`, `network`, `server`) puis le paramètre que vous voulez.
 
-Le serveur utilise par défaut le port 2025. Ce port peut-être modifié à n'importe quel moment en modifiant les valeurs dans le fichier `config.js`.
-
-Vous pouvez activer ou désactiver quand vous voulez le système de débug en changeant la valeur de `debugEnabled`. Par défaut il est activé pour que vous puissez recevoir tt votre déboguage dans la console.
-
-Vous pouvez aussi limiter le nombre de personnes qui peuvent se connecter aux serveurs en modifiant la valeur de `maxPlayer`.
-
-`physicTicAmount` est le nombre de fois par seconde que toute la logique du serveur va se lancer. C'est à dire le calcul des IAs, la gestion des ressources, de l'économie et des guildes et l'envoi des données aux joueurs
-
-`outputLog` est l'endroit où vous voulez que la sauvegarde des logs arrive. (feature à venir)
+Chacun des paramètres permet de changer le fonction du serveur, n'hésitez pas à aller voir le wiki pour plus d'informations.
 
 > Une documentation plus complète arrivera plus tard.
 

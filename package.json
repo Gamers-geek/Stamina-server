@@ -17,12 +17,16 @@
     "colors": "^1.4.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "glob": "^8.0.3",
     "mariadb": "^3.0.1",
+    "path": "^0.12.7",
     "preact": "^10.10.6",
     "three": "^0.144.0",
     "ws": "^8.8.1"
   },
   "devDependencies": {
+    "@types/glob": "^8.0.0",
     "@types/node": "^18.7.16",
     "@types/three": "^0.144.0",
     "@types/ws": "^8.5.3"
