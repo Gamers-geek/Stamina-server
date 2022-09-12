@@ -5,7 +5,7 @@ const priority = "high"
 * Fonction appelée au démarrage du serveur, permet de lancer les premiers systèmes du module si besoin
 */
 export function start():void {
-    console.log("YOOOOOOO")
+
 }
 /**
  * Fonction appelée lors de l'extinction ou du redémarrage, permet de faire des sauvegardes de l'état de votre modules

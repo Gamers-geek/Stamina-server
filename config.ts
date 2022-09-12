@@ -1,4 +1,9 @@
 export namespace Configuration {
+	interface Module{
+		moduleName:string;
+		pathToModule:string;
+		options?:any
+	}
 	export class server {
 		static port: number = 2025
 		static maxPlayer: number = 20
@@ -12,19 +17,20 @@ export namespace Configuration {
 	}
 	export class module {
 		static useModule:boolean = true
-		static allModules:string[] = []
-		static startModules:string[] = []
-		static stopModules:string[] = []
-		static receiveModules:string[] = []
-		static updateModules:string[] = []
-		static advanceModules:string[] = []
-		static connectModules:string[] = []
-		static disconnectModules:string[] = []
-		static sendModules:string[] = []
+		static allModules:Module[] = []
+		static startModules:Module[] = []
+		static stopModules:Module[] = []
+		static receiveModules:Module[] = []
+		static updateModules:Module[] = []
+		static advanceModules:Module[] = []
+		static connectModules:Module[] = []
+		static disconnectModules:Module[] = []
+		static sendModules:Module[] = []
 	}
 	export class debug {
 		static outputLog: string|null = "./log.txt"
 		static debugEnabled: boolean = true	
+		static logEnabled:boolean = true
 	}
 	export class network {
 		
