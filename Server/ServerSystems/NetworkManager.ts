@@ -1,5 +1,4 @@
 import { Vector3 } from 'three'
-import { Player } from '../../Player/Player'
 import ErrorSystem from "../../ErrorsAndSuccess/Errors"
 import SuccessSystem from "../../ErrorsAndSuccess/Success"
 import ModuleSystem from "./ModuleSystem"
@@ -25,8 +24,18 @@ interface smallPlayer {
     rotation: number
 }
 
+interface Client {
+    user:WebSocket;
+    id:number;
+    username:string;
+    tag:number;
+}
+
 namespace NetworkSystem{
-    let allClients:Array<WebSocket> = []
+    let allClients:Array<Client> = []
+    export function getClientByID(ID:number){
+
+    }
     export class PackageManager {
         static dataToSend:any = {}
         static version: number = 0
@@ -42,7 +51,7 @@ namespace NetworkSystem{
             }*/
             await ModuleSystem.ModuleEvent.networkSend()
             allClients.forEach(client => {
-                client.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
+                client.user.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
             })
             //Debug.debug(dataToSend)
             PackageManager.dataToSend = { "Players": [], "version": this.version, "Data": [] }
@@ -74,7 +83,6 @@ namespace NetworkSystem{
             const server = new WebSocket.Server({ port: Configuration.server.port })
             Logger.info(`Server started on port ${Configuration.server.port}, with protocol : ${Configuration.server.protocol}!`);
             server.on("connection", (client) => {
-                allClients.push(client)
                 client.on("message", (message) => {
                     let StringMessage = message.toString()
                     let parsedMessage = JSON.parse(StringMessage);
@@ -91,7 +99,13 @@ namespace NetworkSystem{
                             }
                             break;
                         case parsedMessage.type == "connexion":
-                            ModuleSystem.ModuleEvent.clientConnexion(parsedMessage.data)
+                            allClients.push({
+                                user:client,
+                                id:parsedMessage.data.player.id,
+                                username:parsedMessage.data.player.username,
+                                tag:parsedMessage.data.player.tag
+                            })
+                            ModuleSystem.ModuleEvent.clientConnexion(parsedMessage.data, client)
                             Logger.info("Un client s'est connecté : " + parsedMessage.data.username  + "#" + parsedMessage.data.tag + " / " + parsedMessage.data.ID)
                             break;
                         case parsedMessage.type == "deconnexion":

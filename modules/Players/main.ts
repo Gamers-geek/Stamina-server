@@ -21,17 +21,17 @@ export function update(packet:any):void {
     
 }
 /**
- * @param {any} data
+ * @param {any} connexionData
  * Fonction appelée à chaque fois que quelqu'un se connecte au serveur WebSocket. data est les informations de connexion.
  */
-export function connect(data:any):void {
+export function connect(connexionData:any, clientConnect:any):void {
 
 }
 /**
- * @param {any} data 
+ * @param {any} deconnexionData 
  * Fonction appelée à chaque fois que quelqu'un se déconnecte du serveur WebSocket. data est les information de déconnexion.
  */
-export function disconnect(data:any):void {
+export function disconnect(deconnexionData:any):void {
 
 }
 /**

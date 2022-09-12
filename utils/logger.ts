@@ -1,9 +1,5 @@
 import { Configuration } from "../config";
 import colors from "colors";
-import ErrorSystem from "../ErrorsAndSuccess/Errors";
-import SuccessSystem from "../ErrorsAndSuccess/Success";
-import { Player } from "../Player/Player";
-
 
 /**
  * Classe qui gère les messages dans la console. Entièrement en static, car pas besoin de l'instancier pour l'utiliser

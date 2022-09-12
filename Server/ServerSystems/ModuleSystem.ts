@@ -5,6 +5,7 @@ import ServerSystem from "../Server";
 import path from 'path';
 import glob from "glob";
 import SuccessSystem from "../../ErrorsAndSuccess/Success";
+import NetworkSystem from "./NetworkManager";
 
 namespace ModuleSystem {
     export class ModuleLoader {
@@ -121,11 +122,11 @@ namespace ModuleSystem {
          * Évènement appelé quand un client se connecte au serveur. clientData contient les informations de connexion.
          * @param {any} clientData 
          */
-        static clientConnexion(clientData:any):void {
+        static clientConnexion(clientData:any, client:any):void {
             Configuration.module.connectModules.forEach(moduleData => {
                 const module = require(moduleData.pathToModule)
                 try {
-                    module.connect(clientData)
+                    module.connect(clientData, client)
                 } catch {
                     Logger.info(
                         new ErrorSystem.NotFoundError(
