@@ -12,66 +12,14 @@ namespace ServerSystem {
     export class Node {
         static allPlayers:any[] = []
         static start(){
-            const server = new WebSocket.Server({ port: Configuration.server.port });
-
-            Logger.info(`Server started on port ${Configuration.server.port}, with protocol : ${Configuration.server.protocol}!`);
-        
-                server.on("connection", (client) => {
-                    client.on("message", (message) => {
-                        let StringMessage = message.toString()
-                        let parsedMessage = JSON.parse(StringMessage);
-                        Logger.debug("YOOOOO !")
-                        console.log(parsedMessage)
-                        switch (true) {
-                            case !parsedMessage:
-                                console.log("Invalid message format")
-                                break;
-                            case parsedMessage.status == "client":
-                                console.log("something")
-                                //this.handle_data_for_clients(client, parsedMessage)
-                                break
-                            case parsedMessage.status == "connexion":
-                                console.log("Un joueur s'est connecté")
-                                let version = NetworkSystem.PackageManager.version
-                                let something = new Player(parsedMessage.player.position,
-                                    parsedMessage.player.rotation,
-                                    parsedMessage.player.username,
-                                    parsedMessage.player.tag,
-                                    parsedMessage.player.id,
-                                    version++,
-                                    client
-                                )
-                                Logger.debugError("MMMMMMMHH")
-                                Logger.debug(something)
-                                Node.allPlayers.push(something)
-                                NetworkSystem.PackageManager.addClient(something)
-                                break;
-                            case parsedMessage.status == "deconnexion":
-                                NetworkSystem.PackageManager.removeClient(parsedMessage.data.account.id)
-                                console.log("Un joueur s'est déconnecté")
-                                break;
-                            default:
-                                console.log("DEFAULT")
-                        }
-                    })
-                    if (Node.allPlayers.length > Configuration.server.maxPlayer) {
-                        let hehe: any = new ErrorSystem.UnauthorizedError("Impossible de se connecter pour l'instant")
-                        client.send(Buffer.from(hehe, "utf8"))
-                        client.close();
-                    } else {
-                        //Debug.debug(new OkSuccess(client, "Nouveau client connecté !"))
-                        //Debug.debug(this.packageManager.addClient(new Players({x:0.2, y:0.3, z:58.0}, 1.265548, "Gipson62", 256, 2365, client, this.packageManager, 1)))
-                        console.log("Quelqu'un s'est connecté")
-                    }
-        
-        
-                    client.on("close", (code, reason) => {
-                        console.log("Quelqu'un s'est déconnecté du serveur : " + Configuration.server.serverName)
-                    });
-                })
-                ModuleSystem.ModuleLoader.setupModules()
-                Node.runLogic()
+            let setup = ModuleSystem.ModuleLoader.setupModules()
+            if(setup.code == 200) {
+                ModuleSystem.ModuleEvent.startServer()
+            } else if (setup.code != 200){
+                Logger.info(setup)
             }
+                
+        }
 
         static async runLogic(){
             Logger.info("Démarrage de la logique");
