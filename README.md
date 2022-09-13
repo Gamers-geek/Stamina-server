@@ -76,47 +76,20 @@ Stamina-server est un projet sous license MIT pour l'instant, permettant de fair
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Le fichier de configuration `config.ts` se présente de la manière suivante :
+Initialisez le projet en faisant : `npm install`, puis compiler le TypeScript avec `npx tsc` et enfin, il ne vous reste plus qu'à lancer le projet avec `npm start`.
 
-```ts
-export namespace Configuration {
-	export class server {
-		static port: number = 2025
-		static maxPlayer: number = 20
-		static version: string = "Prototype V2 TypeScript"
-		static physicTic: number = 50
-		static protocol:string = "lws-mirror-protocol"
-		static serverName:string = "Premier Serveur"
-		static runServer:boolean = true
-		static ID:number = Date.now()
+Vous pouvez aussi compilez et lancer en meme temps en faisant : `npm dev`
 
-	}
-	export class module {
-		static useModule:boolean = true
-		static moduleOrder:Array<string> = []
-	}
-	export class debug {
-		static outputLog: string|null = "./log.txt"
-		static debugEnabled: boolean = true	
-	}
-	export class network {
-		
-	}
-}
-```
-
-Pour utiliser le système de configuration dans votre module (feature à venir), il faut importer le namespace Configuration : `import Configuration from 'lechemin'` et ensuite appeler le type de configuration que vous voulez (`module`, `debug`, `network`, `server`) puis le paramètre que vous voulez.
-
-Chacun des paramètres permet de changer le fonction du serveur, n'hésitez pas à aller voir le wiki pour plus d'informations.
-
-> Une documentation plus complète arrivera plus tard.
+N'hésitez pas à aller lire la [documentation](https://github.com/Stamina-Organization/Stamina-server/wiki) pour avoir plus d'informations concernant la configuration du serveur et le système de modules.
 
 ### Prerequisites
 
+- `Node.js v18.7`
 
-Node.js v18.7
+- `TypeScript`
 
-[Stamina-client](https://github.com/Stamina-Organization/Stamina-client)
+- [Stamina-client](https://github.com/Stamina-Organization/Stamina-client)
+> En développement, pas de versions compatibles pour l'instant.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -124,6 +97,7 @@ Node.js v18.7
 ## Roadmap
 
 - [x] Serveur résilient
+- [x] Système de modules
 - [ ] Gestionnaire de versions de paquets
 - [ ] Serveur peu gourmand en ressource
 
