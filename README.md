@@ -18,23 +18,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/Stamina-Organization/Stamina-server">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">StaminaServer</h3>
 
   <p align="center">
-    project_description
+    Serveur WebSocket OpenSource, il est crée avec un système de module rendant son utilisation beaucoup plus simple. (N'hésitez pas à lire la [FAQ](https://github.com/Stamina-Organization/Stamina-server/wiki/FAQ) pour en savoir plus)
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Stamina-Organization/Stamina-server/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/Stamina-Organization/Stamina-server">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/Stamina-Organization/Stamina-server/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/Stamina-Organization/Stamina-server/issues">Request Feature</a>
   </p>
 </div>
 
@@ -64,8 +64,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 Stamina-server est un projet sous license MIT pour l'instant, permettant de faire fonctionner la fonction multijoueur du jeu [Stamina-client](https://github.com/Stamina-Organization/Stamina-client). C'est un serveur master, c'est à dire qu'il s'occupera de tous ce qui se passe dans le jeu et qu'il est le seul à valider ou non les actions qui se passent en jeu.
 
