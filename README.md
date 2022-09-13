@@ -19,13 +19,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/Stamina-Organization/Stamina-server">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://avatars.githubusercontent.com/u/107359546?s=400&u=bc258b620c85b8742dcbfba16bd78f5c51c6455d&v=4" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">StaminaServer</h3>
+<h3 align="center">Stamina Server</h3>
 
   <p align="center">
-    Serveur WebSocket OpenSource, il est crée avec un système de module rendant son utilisation beaucoup plus simple. (N'hésitez pas à lire la [FAQ](https://github.com/Stamina-Organization/Stamina-server/wiki/FAQ) pour en savoir plus)
+    Serveur WebSocket OpenSource, il est crée avec un système de module rendant son utilisation beaucoup plus simple. (N'hésitez pas à lire la <a href=https://github.com/Stamina-Organization/Stamina-server/wiki/FAQ>FAQ</a> pour en savoir plus)
     <br />
     <a href="https://github.com/Stamina-Organization/Stamina-server/wiki"><strong>Explore the docs »</strong></a>
     <br />
