@@ -8,7 +8,7 @@ export function start():void {
 
 }
 /**
- * Fonction appelée lors de l'extinction ou du redémarrage, permet de faire des sauvegardes de l'état de votre modules
+ * Fonction appelée lors de l'extinction ou du redémarrage, permet de faire des sauvegardes de l'état de votre module
  */
 export function stop():void {
 

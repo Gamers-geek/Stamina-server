@@ -53,6 +53,7 @@ namespace ServerSystem {
         static stop(){
             Logger.info("Server stopping ...")
             Configuration.server.runServer = false
+            ModuleSystem.ModuleEvent.stopServer()
             Logger.info(new SuccessSystem.OkSuccess("Server just stopped with success !"))
         }
     }
