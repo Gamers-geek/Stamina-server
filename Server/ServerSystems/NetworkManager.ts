@@ -25,7 +25,7 @@ interface smallPlayer {
 }
 
 interface Client {
-    user:WebSocket;
+    user:any;
     id:number;
     username:string;
     tag:number;
@@ -50,19 +50,41 @@ namespace NetworkSystem{
                 dataToSend.Data = data
             }*/
             await ModuleSystem.ModuleEvent.networkSend()
-            allClients.forEach(client => {
-                client.user.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
-            })
-            //Debug.debug(dataToSend)
-            PackageManager.dataToSend = { "Players": [], "version": this.version, "Data": [] }
+            try {
+                allClients.forEach(client => {
+                    client.user.send(Buffer.from(JSON.stringify(dataToSend), "utf-8"))
+                })
+                //Debug.debug(dataToSend)
+                PackageManager.dataToSend = { "Players": [], "version": this.version, "Data": [] }
+            } catch {
+                Logger.info(new ErrorSystem.BadRequestError("There is an unknown problem on this server"))
+            }
         }
 
-        static addClient(clientToAdd: any) {
-            //Fonction à refaire. Ajouter un ID et peut etre un pseudo+tag aux clients pour qu'on puisse les repérer.
+        static addClient(clientToAdd: any, WebSocketClient:any) {
+            try{
+                allClients.push({
+                    username:clientToAdd.username,
+                    id:clientToAdd.id,
+                    user:WebSocketClient,
+                    tag:clientToAdd.tag
+                })
+                return new SuccessSystem.OkSuccess("Client created successfuly !")
+            } catch {
+                return
+            }
         }
 
-        static removeClient(clientToRemove: any) {
-            //Fonction à refaire. ajouter un ID et peut-être un pseudo+tag aux clients pour qu'on puisse les repérer. 
+        static removeClient(clientToRemove:Client) {
+            try {
+                let removedClient = allClients.findIndex(client => {
+                    client.id = clientToRemove.id
+                })
+                allClients.splice(removedClient)
+                return new SuccessSystem.OkSuccess("Client " + clientToRemove.username + " successfully removed")
+            } catch {
+                return new ErrorSystem.NotFoundError("The client don't exist on this server.")
+        }
         }
 
         static createNewVersion() {
