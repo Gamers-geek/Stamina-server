@@ -44,17 +44,18 @@ export class Player {
     ID: number;
     version: number;
     playerStatut: number;
-    oldPosition: Vector3;
-    client: Websocket
-    constructor(position: THREE.Vector3, rotation: number, username: String, tag: number, id: number, version: number, client: Websocket) {
-        this.position = new Vector3(position.x, position.y, position.z)
-        this.rotation = rotation,
-            this.username = username,
-            this.tag = tag,
-            this.ID = id,
-            this.playerStatut = PLAYER_STATUS.IDLING
-        this.oldPosition = position
-        this.version = version
+    oldPosition: any;
+    client: any
+    constructor(username: String, tag: number, id: number, client: any) {
+        //La position doit être fait via la bdd, le joueur ne doit²² pas stocker sa propre position !
+        this.position = new Vector3(0,0,0)
+        this.rotation = 1.5,
+        this.username = username,
+        this.tag = tag,
+        this.ID = id,
+        this.playerStatut = PLAYER_STATUS.IDLING
+        this.oldPosition = new Vector3(0,0,0)
+        this.version = 0
         this.client = client
     }
 

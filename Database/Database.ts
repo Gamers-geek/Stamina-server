@@ -1,7 +1,5 @@
 import mariadb from "mariadb";
 import ErrorSystem from "../ErrorsAndSuccess/Errors";
-import SuccessSystem from "../ErrorsAndSuccess/Success";
-import Debug from "../utils/logger";
 
 const pool = mariadb.createPool({
     host: process.env.DBHOST,
@@ -12,6 +10,8 @@ const pool = mariadb.createPool({
 })
 
 ///!\ REFAIRE LES BASES DE DONNÉES POUR COLLER AU SYSTEME DE GESTION DE PAQUETS ET À CE QUE LES SERVEURS ONT BESOIN
+//+ Vu que les clients ne sauvegardent pas toutes les données, il faut que lors de la création d'une instance player
+//On aille chercher les infos dans la bdd pour le client.
 
 /**
  * Gestionnaire de base de données MariaDB. Entièrement en static pour éviter de devoir se reconnecter à la db à chaque requête.

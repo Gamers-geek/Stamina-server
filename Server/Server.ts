@@ -1,60 +1,127 @@
-import ErrorSystem from "../ErrorsAndSuccess/Errors"
-import SuccessSystem from "../ErrorsAndSuccess/Success"
+
 import NetworkSystem from "./ServerSystems/NetworkManager"
-import ModuleSystem from "./ServerSystems/ModuleSystem"
 import { Configuration } from "../config"
 import Logger from "../utils/logger"
-import WebSocket from 'ws'
-import {Player} from "../Player/Player"
+import { Player } from "../Player/Player"
 
 namespace ServerSystem {
-    
-    export class Node {
-        static start(){
-            let setup = ModuleSystem.ModuleLoader.setupModules()
-            if(setup.code == 200) {
-                NetworkSystem.EventHandler.launch()
-                ModuleSystem.ModuleEvent.startServer()
-                Node.runLogic()
-            } else if (setup.code != 200){
-                Logger.info(setup)
-            }
-                
-        }
 
-        static async runLogic(){
+    interface IPlayer {
+        id:number;
+        username:string;
+        PlayerRotation:number;
+        PlayerPosition:{
+            x:number;
+            y:number;
+            z:number;
+        }
+        tag:number;
+    }
+    export class Node {
+
+        static players: Array<Player> = []
+
+        static start(){
+            NetworkSystem.EventHandler.launch()
+            Node.runLogic()
+        }
+        /**
+         * Lance la logique du serveur avec une boucle while
+         */
+        static async runLogic() {
+            //À refaire en partie pour prendre en compte le petit temps que prend la promise pour s'exécuter 
+            //pour être sur que ce soit à chaque fois 20 millième de secondes et pas un de plus !
             Logger.info("Démarrage de la logique ...");
             let eachTics = 1000/Configuration.server.physicTic;
             Logger.debug(eachTics)
             while (Configuration.server.runServer == true) {
                 let startWork = Date.now()
-                ModuleSystem.ModuleEvent.serverAdvance()
+                Node.players.forEach(player => {
+                    Logger.debug(player.position)
+                });
                 await NetworkSystem.PackageManager.sendPackages()
-                Logger.info("Coucou les mecs ! " + Date.now())
                 let endWork = Date.now() - startWork
-                Logger.info(eachTics - endWork)
                 await new Promise(resolve => setTimeout(resolve, eachTics - endWork));
             }
         }
 
-        static restart(){
-            Logger.info("Restarting Server ...")
-            Configuration.server.runServer = false
-            let refreshModule = ModuleSystem.ModuleLoader.refresh()
-            if(refreshModule == true){
-                Configuration.server.runServer = true
-                ModuleSystem.ModuleEvent.startServer()
-                Logger.info(new SuccessSystem.OkSuccess("Server restarted with success !"))
-            } else if (refreshModule == false){
-                Logger.info(new ErrorSystem.BadRequestError("Server can't restart, no details provided"))
+        /**
+         * Fonction pour pouvoir créer une nouvelle instance de joueur sur le serveur.
+         * @param {IPlayer} newPlayer 
+         */
+        static addPlayer(newPlayer:IPlayer, playerClient:any) {
+            let player:any = Node.players.find(player => player.ID == newPlayer.id);
+            if(player) {
+                player.client = playerClient;
+                Logger.info("Modified an existing player : " + player.username)
+            }
+            else {
+                Node.players.push(
+                    new Player(
+                        newPlayer.username,
+                        newPlayer.tag,
+                        newPlayer.id,
+                        playerClient
+                    )
+                );
+                Logger.info("New Player : " + newPlayer.username)
             }
         }
 
+        /**
+         * Fonction pour retirer et déconnecter un joueur du serveur.
+         * @param {string} removedPlayer 
+         */
+        static removePlayer(removedPlayer:number) {
+            Logger.debug(removedPlayer)
+            Logger.debug(Node.players)
+            let playerToRemove:any = Node.players.find(player => player.ID == removedPlayer)
+            let indexOfPlayerToRemove:number = Node.players.indexOf(playerToRemove)
+            playerToRemove.client.close()
+            Node.players.splice(indexOfPlayerToRemove)
+            
+        }
+
+        /**
+         * Retourne l'instance du joueur qui contient l'id demandé
+         * @param {number} playerID
+         * @returns
+         */
+        static getPlayerById(playerID:number):Player {
+            let player:any = Node.players.find(player => player.ID == playerID)
+            return player
+        }
+
+        /**
+         * Retourne l'instance du joueur qui contient le nom demandé
+         * @param {string} playerName 
+         * @returns 
+         */
+        static gePlayerByUsername(playerName:string):Player {
+            let player:any = Node.players.find(player => player.username = playerName)
+            return player
+        }
+
+        static updatePlayer(playerID:number, playerPosition:any, playerRotation:number) {
+            let player = Node.getPlayerById(playerID)
+            if(player) {
+                player.validatePosition(playerPosition, playerRotation)
+            } else {
+                Logger.debug("The player don't exist ;-;")
+            }
+        }
+        /**
+         * À faire !
+         */
+        static restart(){
+            //Add some code...
+        }
+
+        /**
+         * À faire !
+         */
         static stop(){
-            Logger.info("Server stopping ...")
-            Configuration.server.runServer = false
-            ModuleSystem.ModuleEvent.stopServer()
-            Logger.info(new SuccessSystem.OkSuccess("Server just stopped with success !"))
+            //Add some code...
         }
     }
 }
